@@ -1,0 +1,10 @@
+name: content-type
+in: header
+required: true
+schema:
+  type: string
+  enum:
+    - applcation/json
+description: >-
+  FormFecha en la que se creó la petición en UNIX Timestamp.ato de contenido de
+  la respuesta.

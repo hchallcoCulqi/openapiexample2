@@ -1,0 +1,62 @@
+post:
+  summary: Confirmar orden
+  operationId: post-user
+  responses:
+    '200':
+      description: La peticioón fue exitosa
+      content:
+        application/json:
+          examples:
+            New User Bob Fellow:
+              value:
+                object: order
+                id: ord_live_xjmEW4dIyJM9G4cc
+                amount: 6000
+                payment_code: '13642064'
+                currency_code: PEN
+                description: Venta de polo
+                order_number: '#id-9999'
+                state: pending
+                total_fee: null
+                net_amount: null
+                fee_details: null
+                creation_date: 1538540487
+                expiration_date: 1538540700
+                updated_at: null
+                paid_at: null
+                available_on: null
+                metadata: null
+                qr: iVBORw0KGgoAAAANSUhE..........K5CYII=
+                cuotealo: url de cuotéalo
+    '400':
+      description: Missing Required Information
+    '409':
+      description: Email Already Taken
+  description: >-
+    El uso de este método es opcional. Confirmar una orden permite que una orden
+    se habilite para ser pagada, generandole un código de pago y pasando a
+    estado "pendiente". Solo se puede usar este método cuando la orden se
+    encuentra en estado "creada".
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+  tags:
+    - Ordenes
+parameters:
+  - schema:
+      type: string
+      example: '"ord_live_0CjjdWhFpEAZlxlz"'
+      minLength: 25
+      maxLength: 25
+    name: id
+    in: path
+    required: true
+    description: ID de la orden a confirmar.

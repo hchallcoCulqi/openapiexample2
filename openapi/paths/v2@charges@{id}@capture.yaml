@@ -1,0 +1,41 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 25
+      maxLength: 25
+      example: chr_live_7VUwCneoG1XtLeS7
+    name: id
+    in: path
+    required: true
+    description: ID del cargo a capturar.
+post:
+  summary: Capturar Cargos
+  operationId: post-v2-charges-id-capture
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  description: >-
+    Esta operación permite capturar una transacción que se encuentra en estado
+    "Autorizada", es decir que aún no ha sido capturada. Esta operación es la
+    segunda mitad del flujo de pagos en dos pasos (autorización y captura) que
+    sucede cuando creas un cargo con el parámetro de captura falso. Una vez que
+    captures un cargo, empezará el proceso de transferencia de esa transacción a
+    tu cuenta bancaria. En el caso que no captures un cargo en un periodo de 4
+    días, el cargo vencerá y los fondos serán devueltos inmediatamente a la
+    tarjeta de tu cliente y el estado del cargo cambiará a "Devuelta".
+  tags:
+    - Cargos
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true

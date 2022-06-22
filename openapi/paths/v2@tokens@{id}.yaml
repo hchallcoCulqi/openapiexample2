@@ -1,0 +1,136 @@
+get:
+  tags:
+    - Tokens
+  summary: Consultar Token
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            ejemplo 1:
+              value:
+                object: token
+                id: tkn_live_701ug3CDNJOAt5Q6
+                type: card
+                creation_date: 1486686216000
+                card_number: 411111******1111
+                last_four: '1111'
+                active: false
+                iin:
+                  object: iin
+                  bin: '411111'
+                  card_brand: Visa
+                  card_type: credit
+                  card_category: Clásica
+                  issuer:
+                    name: 'JPMORGAN CHASE BANK, N.A.'
+                    country: United States
+                    country_code: PE
+                    website: null
+                    phone_number: null
+                  installments_allowed:
+                    - 2
+                    - 4
+                    - 6
+                    - 8
+                    - 10
+                    - 12
+                client:
+                  ip: 190.235.231.153
+                  ip_country: Perú
+                  ip_country_code: PE
+                  browser: null
+                  device_fingerprint: null
+                  device_type: null
+  operationId: get-v2-cc
+  description: >-
+    Consultar el detalle de un [token](#operation/crear-token) utilizando su
+    respectivo ID te permitirá obtener como respuesta el objeto token
+    solicitado. Si la petición es inválida te devolveremos un
+    [error.](#section/Errores)
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+parameters:
+  - schema:
+      type: string
+      example: tkn_live_LVNpj300apa78Pjq
+      minLength: 25
+      maxLength: 25
+    name: id
+    in: path
+    required: true
+    description: ID del token a consultar.
+patch:
+  tags:
+    - Tokens
+  summary: Actualizar Token
+  operationId: patch-v2-tokens-id
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            ejemplo 1:
+              value:
+                data: []
+                paging:
+                  previous: null
+                  next: null
+                  cursors:
+                    before: null
+                    after: null
+  description: >-
+    Actualizar un token te permitirá agregar o reemplazar información a los
+    valores de la metadata que enviaste a la hora de crearla. Cualquier
+    parámetro o valor no provisto será omitido en los valores de la metadata.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              metadata:
+                order_id: '0001'
+          properties:
+            metadata:
+              type: object
+              description: Informacion adicional que se quiere enviar del token.
+              example:
+                dni: '5831543'
+                cliente_id: 259
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'

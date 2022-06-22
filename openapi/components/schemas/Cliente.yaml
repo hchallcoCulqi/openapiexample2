@@ -1,0 +1,94 @@
+description: ''
+type: object
+x-examples:
+  example-1:
+    object: customer
+    id: cus_live_Lz6Yfsm7QqCPIECW
+    creation_date: 1487041774773
+    email: richard@piedpiper.com
+    antifraud_details:
+      country_code: US
+      first_name: Richard
+      last_name: Richard
+      address_city: Palo Alto
+      address: San Francisco Bay Area
+      phone: '6505434800'
+      object: client
+    metadata: {}
+properties:
+  object:
+    type: string
+    minLength: 1
+    description: Nombre del objeto.
+    enum:
+      - customer
+  id:
+    type: string
+    minLength: 1
+    description: ID del cliente.
+    example: cus_live_TWsfemI22ypplGK6
+  creation_date:
+    type: integer
+    description: Fecha de creación del cliente en UNIX Timestamp.
+    example: 1476132639
+  email:
+    type: string
+    minLength: 1
+    description: Dirección de correo electrónico del cliente.
+    example: richard@piedpiper.com
+  antifraud_details:
+    type: object
+    required:
+      - country_code
+      - first_name
+      - last_name
+      - address_city
+      - address
+      - phone
+      - object
+    description: Parámetros evaluados para el motor de fraude.
+    properties:
+      country_code:
+        type: string
+        minLength: 1
+        description: Código del país de la dirección del cliente en formato ISO 3166-2.
+        example: US
+      first_name:
+        type: string
+        minLength: 1
+        description: Nombres del cliente.
+        example: Richard
+      last_name:
+        type: string
+        minLength: 1
+        description: Apellidos del cliente.
+        example: Hendricks
+      address_city:
+        type: string
+        minLength: 1
+        description: Ciudad del cliente.
+        example: Palo Alto
+      address:
+        type: string
+        minLength: 1
+        description: Dirección del cliente.
+        example: 5230 Newell Road
+      phone:
+        type: string
+        minLength: 1
+        description: Número de teléfono del cliente.
+        example: '65054324800'
+      object:
+        type: string
+        minLength: 1
+        description: Nombre del objeto.
+        example: client
+  metadata:
+    type: object
+    description: Envía parametros adicionales con información relevante. Ver más.
+required:
+  - object
+  - id
+  - creation_date
+  - email
+  - antifraud_details

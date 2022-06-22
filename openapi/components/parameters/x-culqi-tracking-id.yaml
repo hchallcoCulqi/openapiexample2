@@ -1,0 +1,7 @@
+name: x-culqi-tracking-id
+in: header
+required: true
+schema:
+  type: string
+  example: '9283'
+description: Código de identificación de la petición.

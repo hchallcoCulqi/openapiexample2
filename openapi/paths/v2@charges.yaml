@@ -1,0 +1,496 @@
+post:
+  tags:
+    - Cargos
+  summary: Crear cargo
+  operationId: crear-cargo
+  responses:
+    '200':
+      description: Se requieren parámetros 3DS.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                user_message: El usuario necesita autenticarse
+                action_code: REVIEW
+    '201':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                duplicated: false
+                object: charge
+                id: chr_live_kEazTaQBDtzNdwFr
+                amount: 10000
+                amount_refunded: 0
+                current_amount: 10000
+                installments: 0
+                installments_amount: null
+                currency: PEN
+                email: null
+                description: null
+                source:
+                  object: token
+                  id: tkn_live_701ug3CDNJOAt5Q6
+                  type: card
+                  creation_date: 1487021247000
+                  card_number: 411111******1111
+                  last_four: '1111'
+                  active: true
+                  iin:
+                    object: iin
+                    bin: '411111'
+                    card_brand: Visa
+                    card_type: credit
+                    card_category: Clásica
+                    issuer:
+                      name: 'JPMORGAN CHASE BANK, N.A.'
+                      country: United States
+                      country_code: PE
+                      website: null
+                      phone_number: null
+                    installments_allowed:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                      - 10
+                      - 12
+                  client:
+                    ip: 190.235.231.153
+                    ip_country: Perú
+                    ip_country_code: PE
+                    browser: null
+                    device_fingerprint: null
+                    device_type: null
+                fraud_score: null
+                antifraud_details:
+                  country_code: null
+                  first_name: null
+                  last_name: null
+                  address_city: null
+                  address: null
+                  email: richard@piedpiper.com
+                  phone: null
+                  object: client
+                date: 1487021262000
+                reference_code: kwd3glvhbs
+                fee: null
+                fee_details:
+                  - type: comision_porcentual
+                    amount: 375
+                    taxes: 68
+                    total_amount: 443
+                    currency_code: PEN
+                    object: fee
+                net_amount: 9557
+                response_code: venta_exitosa
+                merchant_message: La operación de venta ha sido autorizada exitosamente
+                user_message: Su compra ha sido exitosa.
+                device_ip: 190.235.231.153
+                device_country: null
+                country_ip: null
+                product: token
+                state: Exitosa
+                metadata: null
+  description: >-
+    Para realizar un cobro a una tarjeta de débito o crédito es necesario crear
+    un cargo usando un Token o una Tarjeta. Si utilizas tu llave secreta de
+    integración no se realizarán cargos reales, a diferencia del entorno de
+    producción donde enviamos tu petición a los bancos y marcas procesadoras.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              amount: '10000'
+              currency_code: PEN
+              email: richard@piedpiper.com
+              source_id: tkn_live_0CjjdWhFpEAZlxlz
+          properties:
+            amount:
+              type: integer
+              description: Monto del cargo. Sin punto decimal.
+              example: 100.00 serían 10000
+              maximum: 999900
+              minimum: 300
+            currency_code:
+              type: string
+              minLength: 1
+              description: Código de la moneda en tres letras (Formato ISO 4217).
+              enum:
+                - PEN
+                - USD
+            email:
+              type: string
+              minLength: 5
+              description: Correo electrónico del cliente.
+              example: richard@piedpiper.com
+              maxLength: 50
+            source_id:
+              type: string
+              description: >-
+                ID del objeto Token u objeto Tarjeta que se va usar para
+                realizar el cargo.
+              example: 'tkn_live_701ug3CDNJOAt5Q6, crd_live_TWsfemI22ypplGK6'
+              minLength: 25
+              maxLength: 25
+            capture:
+              type: boolean
+              description: >-
+                Indica si se va realizar la captura automática de la tarjeta. Si
+                no se considera por defecto tiene el valor de "true"
+            description:
+              type: string
+              description: Descripción del cargo a realizarse.
+              example: Prueba
+              minLength: 5
+              maxLength: 80
+            installments:
+              type: string
+              description: >-
+                Cantidad de cuotas que se van a aplicar al pago. Estas dependen
+                de las cuotas aceptadas por el objeto token.
+              minLength: 2
+              maxLength: 48
+              example: 2
+            metadata:
+              type: object
+              description: Informacion adicional que se quiere enviar del cargo
+              example:
+                dni: '70202170'
+            antifraud_details:
+              type: object
+              description: >-
+                Datos de la persona que realiza la compra, para detectar
+                posibles fraudes.
+              properties:
+                address:
+                  type: string
+                  description: Direccion del cliente.
+                  minLength: 5
+                  maxLength: 100
+                  example: Avenida Lima 213
+                address_city:
+                  type: string
+                  description: Ciudad del cliente
+                  example: Lima
+                  minLength: 2
+                  maxLength: 30
+                country_code:
+                  type: string
+                  description: Código ISO-3166-1 (Alfa 2) del país del cliente.
+                  example: PE
+                first_name:
+                  type: string
+                  description: Nombres del cliente
+                  example: Richard
+                  minLength: 2
+                  maxLength: 50
+                last_name:
+                  type: string
+                  minLength: 2
+                  maxLength: 50
+                  description: Apellidos del cliente
+                  example: Hendricks
+                phone_number:
+                  type: string
+                  description: Número de teléfono del cliente
+                  minLength: 5
+                  maxLength: 15
+                  example: '999999987'
+            authentication_3DS:
+              type: object
+              properties:
+                cavv:
+                  type: string
+                  example: AAABAWFlmQAAAABjRWWZEEFgFz+=
+                  description: >-
+                    Valor de verificación de autenticación del titular de la
+                    tarjeta.
+                directoryServerTransactionId:
+                  type: string
+                  example: 88debec7-a798-46d1-bcfb-db3075fedb82
+                  description: >-
+                    El ID de transacción del servidor de directorio es generado
+                    por el servidor de directorio de Mastercard durante la
+                    transacción de autenticación y devuelto al comerciante con
+                    los resultados de la autenticación.
+                eci:
+                  type: string
+                  example: '06'
+                  description: >-
+                    El indicador de comercio numérico que indica al banco el
+                    grado de cambio de responsabilidad logrado durante el
+                    proceso de autenticación del pagador.
+                protocolVersion:
+                  type: string
+                  description: ' Este campo contiene la versión de 3D Secure que se utilizó para procesar la transacción. Por ejemplo, 1.0.2 o 2.0.0.'
+                  example: 2.1.0
+          required:
+            - amount
+            - currency_code
+            - email
+            - source_id
+        examples:
+          example-1:
+            value:
+              amount: '10000'
+              currency_code: PEN
+              email: richard@piedpiper.com
+              source_id: tkn_live_0CjjdWhFpEAZlxlz
+get:
+  tags:
+    - Cargos
+  summary: Listar Cargos
+  operationId: get-v2-charges
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                data:
+                  - ...
+                paging:
+                  previous: >-
+                    https://api.culqi.com/v2/charges?limit=50&before=chr_test_
+                    3nKwGp5EGMA8fxaW
+                  next: >-
+                    https://api.culqi.com/v2/charges?limit=50&after=chr_test_3nKwG
+                    p5EGMA8fxaW
+                  cursors:
+                    before: chr_test_3nKwGp5EGMA8fxaW
+                    after: chr_test_3nKwGp5EGMA8fxaW
+  description: >-
+    Listar cargos te permitirá obtener una serie de cargos existentes, de
+    acuerdo a los filtros que uses. Los cargos serán ordenados de acuerdo a su
+    fecha de creación, siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+    - schema:
+        type: string
+        minLength: 300
+        maxLength: 999900
+        example: 500.00 sería 50000
+      in: query
+      name: amount
+      description: Monto de los cargos en céntimos.
+    - schema:
+        type: string
+        minLength: 300
+        maxLength: 999900
+        example: 100.00 sería 10000
+      in: query
+      name: min_amount
+      description: Monto mínimo de los cargos en céntimos.
+    - schema:
+        type: string
+        example: 100.00 sería 10000
+        maxLength: 999900
+        minLength: 300
+      in: query
+      name: max_amount
+      description: Monto máximo de los cargos en céntimos.
+    - schema:
+        type: string
+        minLength: 2
+        maxLength: 48
+        example: '4'
+      in: query
+      name: installments
+      description: Cantidad de cuotas que se aplicaron al Cargo.
+    - schema:
+        type: string
+        example: '8'
+        minLength: 2
+        maxLength: 48
+      in: query
+      name: min_installments
+      description: Cantidad mínima de cuotas que se aplicaron al Cargo.
+    - schema:
+        type: string
+        example: '48'
+        minLength: 2
+        maxLength: 48
+      in: query
+      name: max_installments
+      description: Cantidad máxima de cuotas que se aplicaron al Cargo.
+    - schema:
+        type: string
+      in: query
+      name: currency_code
+      description: >-
+        Código de la moneda en la que se realizaron los cargos cargo en formato
+        ISO 4217.
+    - schema:
+        type: string
+      in: query
+      name: fraud_score
+      description: Score de fraude.
+    - schema:
+        type: string
+      in: query
+      name: min_fraud_score
+      description: Score mínimo de fraude.
+    - schema:
+        type: string
+      in: query
+      name: max_fraud_score
+      description: Score máximo de fraude.
+    - schema:
+        type: string
+      in: query
+      name: first_name
+      description: Nombre.
+    - schema:
+        type: string
+      in: query
+      name: last_name
+      description: Apellidos.
+    - schema:
+        type: string
+      in: query
+      name: email
+      description: Correo electrónico.
+    - schema:
+        type: string
+      in: query
+      name: address
+      description: Dirección.
+    - schema:
+        type: string
+      in: query
+      name: address_city
+      description: Dirección de ciudad.
+    - schema:
+        type: string
+      in: query
+      name: phone_number
+      description: Número telefónico.
+    - schema:
+        type: string
+      in: query
+      name: country_code
+      description: Código de país.
+    - schema:
+        type: string
+      in: query
+      name: creation_date
+      description: Fecha de creación.
+    - schema:
+        type: string
+      in: query
+      name: creation_date_from
+      description: Fecha de creación desde.
+    - schema:
+        type: string
+      in: query
+      name: creation_date_to
+      description: Fecha de creación hasta.
+    - schema:
+        type: string
+      in: query
+      name: capture_date
+      description: Fecha de capture.
+    - schema:
+        type: string
+      in: query
+      name: capture_date_from
+      description: Fecha de capture desde.
+    - schema:
+        type: string
+      in: query
+      name: capture_date_to
+      description: Fecha de capture hasta.
+    - schema:
+        type: string
+      in: query
+      name: card_brand
+      description: Marca de la tarjeta.
+    - schema:
+        type: string
+      in: query
+      name: card_type
+      description: Tipo de tarjeta.
+    - schema:
+        type: string
+      in: query
+      name: bin
+      description: primeros 6 números de la tarjeta.
+    - schema:
+        type: string
+      in: query
+      name: currency_code
+      description: Código de moneda.
+    - schema:
+        type: string
+      in: query
+      name: captured
+      description: confirmado.
+    - schema:
+        type: string
+      in: query
+      name: limit
+      description: 'limite de la paginación, por defecto 50 registros.'
+    - schema:
+        type: string
+      in: query
+      name: before
+      description: parámetro before de paginación.
+    - schema:
+        type: string
+      in: query
+      name: after
+      description: parámetro after de paginación.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          example-1: {}
+    description: ''
+parameters: []

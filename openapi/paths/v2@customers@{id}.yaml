@@ -1,0 +1,149 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 25
+      maxLength: 25
+      example: cus_live_QDO81GT6Zaseewkp
+    name: id
+    in: path
+    required: true
+    description: ID del cliente.
+get:
+  summary: Consultar Cliente
+  tags:
+    - Clientes
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                object: customer
+                id: cus_live_Lz6Yfsm7QqCPIECW
+                creation_date: 1487041774773
+                email: richard@piedpiper.com
+                antifraud_details:
+                  country_code: US
+                  first_name: Richard
+                  last_name: Richard
+                  address_city: Palo Alto
+                  address: San Francisco Bay Area
+                  email: null
+                  phone: '6505434800'
+                  object: client
+  operationId: get-v2-customers-id
+  description: >-
+    Devuelve los detalles de un cliente en particular. En la petición solo debes
+    enviar el ID del cliente que Culqi te devolvió a la hora de crear uno.
+  parameters:
+    - schema:
+        type: string
+        default: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+patch:
+  summary: Actualizar Cliente
+  operationId: patch-v2-customers-id
+  responses:
+    '200':
+      description: OK
+  description: >-
+    Actualizar un cliente te permitirá modificar los valores enviados a la hora
+    de crearlo. Cualquier parámetro que no sea proveído en la petición mantendrá
+    el valor de la creación.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada.](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties: {}
+        examples:
+          example-1:
+            value:
+              metadata:
+                dni: '71702323'
+      application/xml:
+        schema:
+          description: ''
+          type: object
+          properties:
+            metadata:
+              type: object
+              properties:
+                dni:
+                  type: string
+                  minLength: 1
+              required:
+                - dni
+          required:
+            - metadata
+          x-examples:
+            example-1:
+              metadata:
+                dni: '71702323'
+    description: ''
+  tags:
+    - Clientes
+delete:
+  summary: Eliminar Cliente
+  operationId: delete-v2-customers-id
+  responses:
+    '200':
+      description: Petición exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                id: cus_live_LbB0x6yB2Pd0JJnP
+                deleted: true
+                merchant_message: >-
+                  Se eliminó el cliente con ID cus_live_LbB0x6yB2Pd0JJnP
+                  exitosamente.
+  description: >-
+    Elimina de manera permanente a un cliente. Esta operación cancela cualquier
+    cargo posterior o suscripción que esté relacionada con el Cliente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+  tags:
+    - Clientes

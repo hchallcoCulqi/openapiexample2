@@ -1,0 +1,15 @@
+{
+  "name": "culqi-api",
+  "version": "1.0.0",
+  "dependencies": {
+    "@redocly/openapi-cli": "^1.0.0-beta.95",
+	"@redocly/cli":"^1.0.0-beta.102"
+  },
+  "private": true,
+  "scripts": {
+	"preinstall": "npm i -g @redocly/cli@latest",  
+    "start": "openapi preview-docs",
+    "build": "openapi bundle -o apiculqi.yaml",
+    "test": "openapi lint"
+  }
+}

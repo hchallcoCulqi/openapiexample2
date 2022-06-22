@@ -1,0 +1,8 @@
+name: date
+in: header
+required: true
+schema:
+  type: string
+description: >-
+  Fecha en la que se creó la petición en [UNIX
+  Timestamp.](http://www.unixtimestamp.com/)

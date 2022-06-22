@@ -1,0 +1,31 @@
+type: object
+properties:
+  date:
+    type: string
+    description: Fecha en la que se creó la petición en UNIX Timestamp.
+    example: '1476132639'
+  x-culqi-environment:
+    type: string
+    description: Entorno al que se realizó la petición. Ver más.
+    enum:
+      - live
+      - test
+  x-culqi-tracking-id:
+    type: string
+    description: Código de identificación de la petición.
+    example: '9283'
+  x-culqi-version:
+    type: string
+    description: Número de versión del API.
+    example: 17.01.89
+  content-type:
+    type: string
+    description: Formato de contenido de la respuesta.
+    enum:
+      - applcation/json
+required:
+  - date
+  - x-culqi-environment
+  - x-culqi-tracking-id
+  - x-culqi-version
+  - content-type

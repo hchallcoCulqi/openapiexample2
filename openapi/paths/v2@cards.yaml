@@ -1,0 +1,252 @@
+post:
+  summary: Crear Tarjeta
+  operationId: crear-tarjeta
+  responses:
+    '201':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                object: card
+                id: crd_live_RzjTyGUwZioJLpZt
+                date: 1487044833972
+                customer_id: cus_live_Lz6Yfsm7QqCPIECW
+                token:
+                  object: token
+                  id: tkn_live_vEcZSCOVz5PGDPdQ
+                  type: card
+                  creation_date: 1487044809000
+                  card_number: 411111******1111
+                  last_four: '1111'
+                  active: true
+                  iin:
+                    object: iin
+                    bin: '411111'
+                    card_brand: Visa
+                    card_type: credit
+                    card_category: Clásica
+                    issuer:
+                      name: 'JPMORGAN CHASE BANK, N.A.'
+                      country: United States
+                      country_code: PE
+                      website: null
+                      phone_number: null
+                    installments_allowed:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                      - 10
+                      - 12
+                  client:
+                    ip: 190.235.231.153
+                    ip_country: Perú
+                    ip_country_code: PE
+                    browser: null
+                    device_fingerprint: null
+                    device_type: null
+                metadata: {}
+  description: >-
+    A la hora de crear una Tarjeta tendrás que relacionar un token con un
+    Cliente que has creado anteriormente para que este pueda ser utilizado para
+    pagos posteriores y suscripciones.
+  tags:
+    - Tarjetas
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              customer_id: cus_live_Lz6Yfsm7QqCPIECW
+              token_id: tkn_live_vEcZSCOVz5PGDPdQ
+          properties:
+            customer_id:
+              type: string
+              minLength: 25
+              maxLength: 25
+              description: ID de la tarjeta a enlazar a la tarjeta.
+              example: cus_live_Lz6Yfsm7QqCPIECW
+            token_id:
+              type: string
+              description: ID del token generado al Crear Token.
+              example: tkn_live_vEcZSCOVz5PGDPdQ
+              minLength: 25
+              maxLength: 25
+            validate:
+              type: boolean
+              default: true
+              description: >-
+                Indica si se debe realizar una validación a la tarjeta, es
+                decir, Culqi crea un cargo mínimo (3 PEN) y lo devuelve
+                inmediatamente. Si no se considera el parametro, por defecto
+                tiene un valor true.
+            metadata:
+              type: object
+              description: >-
+                Informacion adicional que se requiera enviar al crear la
+                tarjeta.
+              example:
+                marca_tarjeta: VISA
+          required:
+            - customer_id
+            - token_id
+get:
+  summary: Listar Tarjetas
+  operationId: get-v2-cards
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                data:
+                  - ...
+                paging:
+                  previous: >-
+                    https://api.culqi.com/v2/cards?limit=50&before=crd_live_RzjT
+                    yGUwZioJLpZt
+                  next: >-
+                    https://api.culqi.com/v2/cards?limit=50&after=crd_live_Z1YXhVdg6
+                    0B0UCLI
+                  cursors:
+                    before: crd_live_RzjTyGUwZioJLpZt
+                    after: crd_live_Z1YXhVdg60B0UCLI
+  tags:
+    - Tarjetas
+  description: >-
+    Listar Tarjetas te permitirá obtener una serie de Tarjetas existentes. De
+    acuerdo a los filtros que uses, las tarjetas serán ordenados de acuerdo a su
+    fecha de creación; siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada.](#section/Autenticacion)'
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date
+      description: Fecha de la tarjeta en UNIX Timestamp.
+    - schema:
+        type: string
+        example: '1476132639'
+        minLength: 5
+        maxLength: 15
+      in: query
+      name: creation_date_from
+      description: Fecha inicial de las tarjetas en UNIX Timestamp.
+    - schema:
+        type: string
+        example: '1476132639'
+        minLength: 5
+        maxLength: 15
+      in: query
+      name: creation_date_to
+      description: Fecha limite de las tarjetas en UNIX Timestamp.
+    - schema:
+        type: string
+        enum:
+          - Visa
+          - Mastercard
+          - Amex
+          - Diners
+      in: query
+      name: card_brand
+      description: Marca de la tarjeta.
+    - schema:
+        type: string
+        enum:
+          - credito
+          - debito
+          - prepagada
+      in: query
+      name: card_type
+      description: Tipo de la tarjeta a consultar.
+    - schema:
+        type: string
+        enum:
+          - escritorio
+          - movil
+          - tablet
+      in: query
+      name: device_type
+      description: Tipo de dispositivo.
+    - schema:
+        type: string
+        example: '411111'
+        minLength: 5
+        maxLength: 15
+      in: query
+      name: bin
+      description: Son los primeros seis dígitos del número de tarjeta.
+    - schema:
+        type: string
+        example: PE
+      in: query
+      name: country_code
+      description: 'Código del país, en formato ISO-3166 (Alfa 2).'
+    - schema:
+        type: string
+        example: '50'
+        minLength: 1
+        maxLength: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de clientes que se quieren listar.
+    - schema:
+        type: string
+        minLength: 25
+        maxLength: 25
+        example: crd_live_7lYOtONQ9LxcgJUW
+      in: query
+      name: before
+      description: >-
+        El ID de la tarjeta desde donde se quiere traer los resultados
+        anteriores. No inclusivo.
+    - schema:
+        type: string
+        example: crd_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID de la tarjeta desde donde se quiere traer los resultados
+        siguientes. No inclusivo..

@@ -1,0 +1,108 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 25
+      maxLength: 25
+      example: '"pln_live_QDO81GT6Zaseewkp"'
+    name: id
+    in: path
+    required: true
+    description: ID del plan a consultar
+get:
+  summary: Consultar Plan
+  tags:
+    - Planes
+  responses:
+    '200':
+      description: La petición fue exitosa
+  operationId: get-v2-plans-id
+  description: >-
+    Devuelve los detalles de un Plan en particular. Para la petición solo debes
+    enviar el ID del Plan que Culqi te devolvió a la hora de crearlo.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave_privada](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+    description: ''
+patch:
+  summary: Actualizar Plan
+  operationId: patch-v2-plans-id
+  responses:
+    '200':
+      description: La petición fue exitosa
+  description: >-
+    Actualizar un plan te permitirá agregar o reemplazar información a los
+    valores de la metadata que enviaste a la hora de crearla. Cualquier
+    parámetro o valor no provisto será omitido en los valores de la metadata.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave_privada](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              metadata:
+                descripcion: Plan inicial.
+          properties:
+            metadata:
+              type: object
+              required:
+                - descripcion
+              description: |-
+                Información adicional del plan a modificar
+
+                Example: "{"descripcion"=>"Este es un plan simple."}"
+              properties:
+                descripcion:
+                  type: string
+                  minLength: 1
+          required:
+            - metadata
+  tags:
+    - Planes
+delete:
+  summary: Eliminar Plan
+  operationId: delete-v2-plans-id
+  responses:
+    '200':
+      description: La petición fue exitosa
+  description: >-
+    Elimina de manera permanente un Plan. Esta operación cancela todas las
+    suscripciones relacionadas con el Plan.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave_privada](#section/Autenticacion)'
+  tags:
+    - Planes

@@ -1,0 +1,104 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 25
+      maxLength: 25
+      example: '"sub_live_0CjjdWhFpEAZlxlz"'
+    name: id
+    in: path
+    required: true
+    description: ID de la suscripcion a consultar.
+get:
+  summary: Consultar Suscripción
+  tags:
+    - Suscripciones
+  responses:
+    '200':
+      description: La petición fue exitosa
+  operationId: get-v2-subscriptions-id
+  description: >-
+    Devuelve los detalles de una Suscripción en particular. Para la petición
+    solo debes enviar el ID de la Suscripción que Culqi te devolvió a la hora de
+    crearlo.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+patch:
+  summary: Actualizar Suscripción
+  operationId: patch-v2-subscriptions-id
+  responses:
+    '200':
+      description: La petición fue exitosa
+  description: >-
+    Actualizar una suscripción te permitirá agregar o reemplazar información a
+    los valores de la metadata que enviaste a la hora de crearla. Cualquier
+    parámetro o valor no provisto será omitido en los valores de la metadata.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              metadata:
+                dni: '71702323'
+          properties:
+            metadata:
+              type: object
+              required:
+                - dni
+              description: >-
+                Información adicional de la suscripción a modificar
+
+
+                Example: {"cliente_id": "259", "documento_identidad":
+                "000551337"}
+              properties:
+                dni:
+                  type: string
+                  minLength: 1
+          required:
+            - metadata
+  tags:
+    - Suscripciones
+delete:
+  summary: Cancelar Suscripción
+  operationId: delete-v2-subscriptions-id
+  responses:
+    '200':
+      description: La pertición fue exitosa
+  description: >-
+    Esta operación permite cancelar la suscripción a una tarjeta para que el
+    cliente no vuelva a ser cobrado nuevamente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+  tags:
+    - Suscripciones

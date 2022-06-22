@@ -1,0 +1,179 @@
+parameters: []
+get:
+  summary: Listar Suscripciones
+  tags:
+    - Suscripciones
+  responses:
+    '200':
+      description: La petición fue exitosa
+      content:
+        application/json:
+          examples:
+            Get User Alice Smith:
+              value:
+                id: 142
+                firstName: Alice
+                lastName: Smith
+                email: alice.smith@gmail.com
+                dateOfBirth: '1997-10-31'
+                emailVerified: true
+                signUpDate: '2019-08-24'
+  operationId: get-users-userId
+  description: >-
+    Listar suscripciones te permitirá obtener una serie de suscripciones
+    existentes. De acuerdo a los filtros que uses, las diferentes suscripciones
+    serán ordenadas de acuerdo a su fecha de creación; siendo el primero el más
+    reciente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+    - schema:
+        type: string
+        example: '2000'
+        minLength: 300
+        maxLength: 9999900
+      in: query
+      name: amount
+      description: Monto de los planes asociados a las suscripciones
+    - schema:
+        type: string
+        example: '2000'
+        minLength: 300
+        maxLength: 9999900
+      in: query
+      name: min_amount
+      description: Monto mínimo de los planes asociados a las suscripciones
+    - schema:
+        type: string
+        example: '4000'
+        minLength: 300
+        maxLength: 9999900
+      in: query
+      name: max_amount
+      description: Monto máximo de los planes asociados a las suscripciones
+    - schema:
+        type: string
+        example: '1476132639'
+        format: date
+      in: query
+      name: date
+      description: Fecha de la suscripción en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+        format: date
+      in: query
+      name: date_from
+      description: Fecha inicial de las suscripciones en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+        format: date
+      in: query
+      name: date_to
+      description: Fecha limite de las suscripciones en UNIX Timestamp
+    - schema:
+        type: string
+        example: 'Valores permitidos: Dias, Semanas, Meses, Años,'
+      in: query
+      name: interval
+      description: Intervalo de los planes asociados a las suscripciones
+    - schema:
+        type: string
+        example: 'Activa, Cancelada, Finalizada,'
+      in: query
+      name: status
+      description: Estado de las suscripciones  Valores permitidos
+    - schema:
+        type: string
+        example: '50'
+        minLength: 1
+        maxLength: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de suscripciones que se quieren listar.
+    - schema:
+        type: string
+        example: sub_live_7lYOtONQ9LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: before
+      description: >-
+        El ID de la suscripción desde donde se quiere traer la página anterior.
+        No inclusivo.
+    - schema:
+        type: string
+        minLength: 25
+        maxLength: 25
+        example: sub_live_7lYOtOMM6LxcgJUW
+      in: query
+      name: after
+      description: >-
+        El ID de la suscripción desde donde se quiere traer la siguiente página.
+        No inclusivo.
+post:
+  summary: Crear Suscripción
+  operationId: post-v2-subscriptions
+  responses:
+    '201':
+      description: La petición fue exitosa
+  description: >-
+    Esta operación relaciona la tarjeta de un cliente con un plan de cobranza
+    recurrente creado anteriormente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              card_id: crd_live_b3MMECR8cJ5tZqf2
+              plan_id: pln_live_jwOAYnxX49o2ydWv
+          properties:
+            card_id:
+              type: string
+              example: '"crd_live_b3MMECR8cJ5tZqf2"'
+              minLength: 25
+              maxLength: 25
+              description: ID de la tarjeta.
+            plan_id:
+              type: string
+              description: ID del plan.
+              example: '"pln_live_jwOAYnxX49o2ydWv"'
+              minLength: 25
+              maxLength: 25
+            metadata:
+              type: object
+              description: >-
+                Información adicional de la suscripción
+
+
+                Example: {"cliente_id": "256", "documento_identidad":
+                "000551487"}
+          required:
+            - card_id
+            - plan_id
+    description: ''
+  tags:
+    - Suscripciones

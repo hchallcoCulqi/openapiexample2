@@ -1,0 +1,37 @@
+parameters:
+  - schema:
+      type: string
+      example: evt_live_0CjjdWhFpEAZlxlz
+      minLength: 25
+      maxLength: 25
+    name: id
+    in: path
+    required: true
+    description: ID del evento a consultar.
+get:
+  summary: Consultar Evento
+  tags:
+    - Eventos
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  operationId: consultar-evento
+  description: >-
+    Devuelve los detalles de un Evento en particular. Para la petición solo
+    debes enviar el ID del Evento que Culqi te devolvió en el Webhook. Todos los
+    eventos comparten una estructura común y la única propiedad que es diferente
+    es el parámetro data.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: Llave privada.

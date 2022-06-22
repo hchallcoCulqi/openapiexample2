@@ -1,0 +1,161 @@
+parameters:
+  - schema:
+      type: string
+      minLength: 25
+      maxLength: 25
+      example: crd_live_QDO81GT6Zaseewkp
+    name: id
+    in: path
+    required: true
+    description: ID de la tarjeta.
+get:
+  summary: Consultar Tarjeta
+  tags:
+    - Tarjetas
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                object: card
+                id: crd_live_RzjTyGUwZioJLpZt
+                date: 1487044833972
+                customer_id: cus_live_Lz6Yfsm7QqCPIECW
+                token:
+                  object: token
+                  id: tkn_live_vEcZSCOVz5PGDPdQ
+                  type: card
+                  creation_date: 1487044809000
+                  card_number: 411111******1111
+                  last_four: '1111'
+                  active: true
+                  iin:
+                    object: iin
+                    bin: '411111'
+                    card_brand: Visa
+                    card_type: credit
+                    card_category: Clásica
+                    issuer:
+                      name: 'JPMORGAN CHASE BANK, N.A.'
+                      country: United States
+                      country_code: PE
+                      website: null
+                      phone_number: null
+                    installments_allowed:
+                      - 2
+                      - 4
+                      - 6
+                      - 8
+                      - 10
+                      - 12
+                  client:
+                    ip: 190.235.231.153
+                    ip_country: Perú
+                    ip_country_code: PE
+                    browser: null
+                    device_fingerprint: null
+                    device_type: null
+                metadata: null
+  operationId: get-v2-cards-id
+  description: >-
+    Consultar el detalle de una tarjeta utilizando el ID devuelto en la petición
+    para crear una Tarjeta, te permitirá obtener como respuesta todos los
+    parámetros de esta. Si la petición es inválida te devolveremos un error.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+patch:
+  summary: Actualizar Tarjeta
+  operationId: actualizar-tarjeta
+  responses:
+    '200':
+      description: Petición fue exitosa.
+  description: >-
+    Actualizar una Tarjeta te permitirá agregar o reemplazar información a los
+    valores de la metadata que enviaste a la hora de crearla. Cualquier
+    parámetro o valor no provisto será omitido en los valores de la metadata.
+    Actualmente, también permite actualizar el **ID del token asociado.**
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+      required: true
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token_id:
+              type: string
+              description: >-
+                ID del token nuevo a actualizar en la Tarjeta, este es generado
+                previamente en Crear Token.
+              example: tkn_live_vEcZSCOVz5PGDPdQ
+              minLength: 25
+              maxLength: 25
+            metadata:
+              type: object
+              example:
+                dni: '71701978'
+        examples:
+          example-1:
+            value:
+              metadata:
+                dni: '71702323'
+  tags:
+    - Tarjetas
+delete:
+  summary: Eliminar Tarjeta
+  operationId: delete-v2-cards-id
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  description: >-
+    Eliminar una Tarjeta te permitirá limpiar la cantidad de tarjetas asociadas
+    a un Customer por varios motivos: la tarjeta superó la cantidad de
+    denegaciones esperadas o el cliente es fraudulento y no quieres realizar más
+    cobros a ese cliente, prevenir que tus clientes no paguen una suscripción de
+    la que se han retirado, entre otras cosas. La petición devuelva el objeto
+    Card eliminado.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada.](#section/Autenticacion)'
+  tags:
+    - Tarjetas

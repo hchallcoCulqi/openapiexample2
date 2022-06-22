@@ -1,0 +1,100 @@
+parameters:
+  - schema:
+      type: string
+      example: ref_live_LVNpj300apa78Pjq
+      minLength: 25
+      maxLength: 25
+    name: id
+    in: path
+    required: true
+    description: ID de la devolución a consultar.
+get:
+  summary: Consultar Devolución
+  tags:
+    - Devoluciones
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                id: ref_live_TTfLAgaA8nz8PWbO
+                charge_id: chr_live_TWsfemI22ypplGK6
+                amount: 5000
+                reason: Devolución solicitada por el comercio
+                creation_date: 1487039706000
+                object: refund
+                metadata: {}
+  operationId: get-v2-refunds-id
+  description: >-
+    Devuelve los detalles de una devolución en particular. Para la petición solo
+    debes enviar el ID de la devolución que Culqi te devolvió a la hora de crear
+    una Devolución.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada.](#section/Autenticacion)'
+patch:
+  summary: Actualizar Devolución
+  operationId: patch-v2-refunds-id
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  tags:
+    - Devoluciones
+  description: >-
+    Actualizar una devolución te permitirá agregar o reemplazar información a
+    los valores de la metadata que enviaste a la hora de crear una devolución.
+    Cualquier parámetro o valor no provisto será omitido en la el valores de la
+    metadata.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada.](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              metadata:
+                dni: '71702323'
+          properties:
+            metadata:
+              type: object
+              example:
+                dni: '71702323'
+          required:
+            - metadata
+        examples:
+          example-1:
+            value:
+              metadata:
+                dni: '71702323'

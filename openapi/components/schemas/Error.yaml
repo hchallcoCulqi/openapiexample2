@@ -1,0 +1,44 @@
+title: Objecto Error
+x-stoplight:
+  id: th7ghbb22gn9b
+type: object
+properties:
+  type:
+    type: string
+    description: Indica el tipo de error devuelto
+    example: card_error
+    enum:
+      - invalid_request_error
+      - authentication_error
+      - parameter_error
+      - card_error
+      - limit_api_error
+      - resource_error
+      - api_error
+  charge_id:
+    type: string
+    description: El ID del cargo que ha sido denegado
+    example: '"chr_test_stm3Fr4HIPC50qxH"'
+  code:
+    type: string
+    description: Indica el tipo de error relacionado a una tarjeta
+    example: ' "card_declined"'
+  declined_code:
+    type: string
+    description: Indica el motivo de denegación devuelto por los bancos.
+    example: '"insufficient_funds"'
+  merchant_message:
+    type: string
+    description: Mensaje dirigido al comercio para conocer el detalle del error.
+    example: ' "La tarjeta no tiene fondos suficientes para realizar la compra."'
+  user_message:
+    type: string
+    description: Mensaje dirigido al cliente para conocer el detalle del error.
+    example: ' "Su tarjeta no tiene fondos suficientes. Verifica tus fondos disponibles con el banco emisor o inténta nuevamente con otra tarjeta."'
+  param:
+    type: string
+    description: Indica el parámetro específico relacionado al error.
+    example: ' "amount"'
+required:
+  - type
+  - merchant_message

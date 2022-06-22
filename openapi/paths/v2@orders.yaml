@@ -1,0 +1,245 @@
+parameters: []
+get:
+  summary: Listar órdenes
+  tags:
+    - Ordenes
+  responses:
+    '200':
+      description: La petición fue exitosa
+      content:
+        application/json:
+          examples:
+            Example-1:
+              value:
+                data:
+                  - ...
+                paging:
+                  previous: >-
+                    https://api.culqi.com/v2/orders?limit=50&before=crd_live_RzjT
+                    yGUwZioJLpZt
+                  next: >-
+                    https://api.culqi.com/v2/orders?limit=50&after=crd_live_Z1YXhVdg6
+                    0B0UCLI
+                  cursors:
+                    before: ord_live_RzjTyGUwZioJLpZt
+                    after: ord_live_Z1YXhVdg60B0UCLI
+  operationId: get-users-userId
+  description: >-
+    Listas órdenes permtie obtener el listado de órdenes de tu comercio. De
+    acuerdo a los filtros que uses, las ordenes serán ordenados de acuerdo a su
+    fecha de creación; siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+    - schema:
+        type: integer
+        minimum: 100
+        maximum: 999900
+        example: 50.00 sería 5000
+      in: query
+      name: amount
+      description: Monto de la orden en céntimos.
+    - schema:
+        type: integer
+        example: 100.00 sería 10000
+      in: query
+      name: min_amount
+      description: Monto mínimo de los cargos en céntimos.
+    - schema:
+        type: integer
+        minimum: 100
+        maximum: 999900
+        example: 100.00 sería 10000
+      in: query
+      name: max_amount
+      description: Monto máximo de los cargos en céntimos.
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date
+      description: Fecha de la tarjeta en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_from
+      description: Fecha inicial de las tarjetas en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_to
+      description: Fecha limite de las tarjetas en UNIX Timestamp
+    - schema:
+        type: string
+        example: 'created, pending, paid, expired, deleted,'
+      in: query
+      name: state
+      description: 'Estado de la orden a consultar  Valores permitidos:'
+    - schema:
+        type: integer
+        example: 50
+        minimum: 1
+        maximum: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de ordenes que se quieren listar.
+    - schema:
+        type: string
+        minLength: 25
+        maxLength: 25
+        example: ord_live_7lYOtONQ9LxcgJUW
+      in: query
+      name: before
+      description: >-
+        El ID de la orden desde donde se quiere traer los resultados anteriores.
+        No inclusivo.
+    - schema:
+        type: string
+        example: ord_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID de la orden desde donde se quiere traer los resultados siguientes.
+        No inclusivo.
+post:
+  summary: Crear Orden
+  operationId: post-v2-orders
+  responses:
+    '201':
+      description: La petición fue exitosa
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                object: order
+                id: ord_live_xjmEW4dIyJM9G4cc
+                amount: 6000
+                payment_code: '13642064'
+                currency_code: PEN
+                description: Venta de polo
+                order_number: '#id-9999'
+                state: pending
+                total_fee: null
+                net_amount: null
+                fee_details: null
+                creation_date: 1538540487
+                expiration_date: 1538540700
+                updated_at: null
+                paid_at: null
+                available_on: null
+                metadata: null
+                qr: iVBORw0KGgoAAAANSUhE..........K5CYII=
+                cuotealo: url de cuotéalo
+  description: >-
+    La creación de una orden permite que se genere un objeto orden con los
+    detalles de la posible venta. Esta orden nace con un estado pendiente de
+    pago. Además, al momento de la creación tu cliente recibe un correo con las
+    instrucciones de como pagar la orden.
+
+
+    <div class="box info"><div class="content">Si una orden es creada con el
+    parametro confirm en false, esta tendrá que ser confirmada inmediatamente
+    con el método Confirmar orden. De lo contrario, la orden no podrá ser pagada
+    por tu cliente. Se recomienda crearla sin incluir el parámetro 'confirm''
+    para que siga el flujo natural.</div></div>
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: Bearer << llave_privada >>
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              amount: 1000
+              currency_code: PEN
+              description: Venta de prueba
+              order_number: pedido-9999
+              client_details:
+                first_name: Richard
+                last_name: Hendricks
+                email: richard@piedpiper.com
+                phone_number: '+51945145288'
+              expiration_date: 1538772846
+          properties:
+            amount:
+              type: integer
+              description: Monto de la orden. Sin punto decimal.
+              example: 600.00 serían 60000
+              minimum: 600
+              maximum: 999900
+            currency_code:
+              type: string
+              minLength: 1
+              description: Código de la moneda en tres letras (Formato ISO 4217).
+              example: PEN
+            description:
+              type: string
+              description: Descripcion de la orden
+              example: ' Venta de polo'
+              minLength: 5
+              maxLength: 80
+            order_number:
+              type: string
+              minLength: 1
+              description: Numero que identifica a la orden. Debe ser unico
+              example: '"#id-9999"'
+              maxLength: 36
+            expiration_date:
+              type: string
+              description: Fecha de expiracion de la orden. Debe ser una fecha futura.
+              example: '"1476132639"'
+              format: time
+            client_details:
+              type: object
+              required:
+                - confirm
+                - metadata
+              description: "\t\nDatos de la persona que realiza la compra."
+              properties:
+                confirm:
+                  type: boolean
+                  description: "\t\nIndica si se debe confirmar la orden. Por defecto tiene un valor true.\n\nExample: true"
+                metadata:
+                  type: object
+                  description: >-
+                    Informacion adicional que se requiera enviar al crear la
+                    orden.
+
+
+                    Example: "{dni"=>"71702999"}"
+          required:
+            - amount
+            - currency_code
+            - description
+            - order_number
+            - expiration_date
+            - client_details
+  tags:
+    - Ordenes

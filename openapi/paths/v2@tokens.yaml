@@ -1,0 +1,272 @@
+post:
+  tags:
+    - Tokens
+  summary: Crear Token
+  operationId: crear-token
+  description: >-
+    Crear tokens te permitirá obtener información de la tarjeta y utilizarla
+    para [crear un cargo](#operation/crear-cargo) o [crear una
+    tarjeta](#operation/crear-tarjeta).
+
+    - Si desarrollas una pagina web deberías crear token utilizando Culqi
+    Checkout o CulqiJS
+
+    - Si desarrollas una aplicación móvil deberías crear token utilizando
+    nuestros SDKs para móviles (iOS o Android)
+
+    - Si deseas crear el token de manera directa con el API de Culqi debes
+    llenar el siguiente autocuestionario.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer pk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave pública](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          x-examples:
+            example-1:
+              card_number: '4111111111111111'
+              cvv: '123'
+              expiration_month: 09
+              expiration_year: '2020'
+              email: richard@piedpiper.com
+          properties:
+            card_number:
+              type: string
+              minLength: 13
+              maxLength: 16
+              description: Número de tarjeta.
+              example: '4111111111111111'
+            cvv:
+              type: string
+              minLength: 1
+              description: CVV de la tarjeta.
+              example: '123'
+            expiration_month:
+              type: string
+              minLength: 1
+              maxLength: 2
+              example: 09
+              description: Mes de expiración de la tarjeta.
+            expiration_year:
+              type: string
+              description: Año de expiración de la tarjeta.
+              minLength: 4
+              maxLength: 4
+              example: '2020'
+            email:
+              type: string
+              description: Dirección de correo electrónico del cliente.
+              minLength: 5
+              maxLength: 50
+              example: ichard@piedpiper.com
+            metadata:
+              type: object
+              description: Informacion adicional que se quiere enviar del token.
+              example:
+                dni: '5831543'
+          required:
+            - card_number
+            - cvv
+            - expiration_month
+            - expiration_year
+            - email
+        examples:
+          ejemplo 1:
+            value:
+              card_number: '4111111111111111'
+              cvv: '123'
+              expiration_month: 09
+              expiration_year: '2020'
+              email: ichard@piedpiper.com
+              metadata:
+                dni: '5831543'
+    description: ''
+  responses:
+    '201':
+      description: La petición exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            ejemplo 1:
+              value:
+                object: token
+                id: tkn_live_0CjjdWhFpEAZlxlz
+                type: card
+                email: richard@piedpiper.com
+                creation_date: 1476132639
+                card_number: 442328******1214
+                last_four: '1214'
+                active: true
+                iin:
+                  object: iin
+                  bin: '442328'
+                  card_brand: Visa
+                  card_type: credito
+                  card_category: platinum
+                  issuer:
+                    name: Silicon Valley Bank
+                    country: United States
+                    country_code: US
+                    website: 'https://www.svb.com'
+                    phone_number: +1.800.774.7390
+                  installments_allowed:
+                    - 2
+                    - 4
+                    - 8
+                    - 12
+                    - 24
+                    - 36
+                client:
+                  ip: 72.229.28.185
+                  ip_country: United States
+                  ip_country_code: US
+                  browser: Google Chrome 56.0.2924.87
+                  device_fingerprint: 6rITdVTYkWfOrss8
+                  device_type: escritorio
+                metadata:
+                  dni: '5831543'
+get:
+  tags:
+    - Tokens
+  summary: Listar Tokens
+  operationId: get-v2-tokens
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            ejemplo 1:
+              value:
+                data: []
+                paging:
+                  previous: null
+                  next: null
+                  cursors:
+                    before: null
+                    after: null
+  description: >-
+    Listar tokens te permitirá obtener una serie de tokens existentes. De
+    acuerdo a los filtros que uses los tokens serán ordenados de acuerdo a la
+    fecha de creación, siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date
+      description: 'Fecha del token en [UNIX Timestamp.](http://www.unixtimestamp.com/)'
+    - schema:
+        type: string
+      in: query
+      name: creation_date_to
+      description: Número de tarjeta.
+    - schema:
+        type: string
+        enum:
+          - Visa
+          - Mastercard
+          - Amex
+          - Diner
+      in: query
+      name: card_brand
+      description: Marca de la tarjeta.
+    - schema:
+        type: string
+        enum:
+          - credito
+          - debito
+          - prepagada
+      in: query
+      name: card_type
+      description: Tipo de tarjeta.
+    - schema:
+        type: string
+        enum:
+          - escritorio
+          - movil
+          - tablet
+      in: query
+      name: device_type
+      description: Tipo de dispositivo.
+    - schema:
+        type: string
+        minLength: 6
+        maxLength: 6
+        example: '411111'
+      in: query
+      name: bin
+      description: >-
+        Primeros seis dígitos de la tarjeta expresado en formato **ISO/IEC
+        7812.** 
+    - schema:
+        type: string
+        example: PE
+      in: query
+      name: country_code
+      description: 'Código del país, en formato ISO-3166 (Alfa 2).'
+    - schema:
+        type: string
+        example: '50'
+        minLength: 1
+        maxLength: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de tokens que se quieren listar.
+    - schema:
+        type: string
+        minLength: 25
+        maxLength: 25
+        example: tkn_live_7lYOtONQ9LxcgJUW
+      in: query
+      name: before
+      description: >-
+        El ID del token desde donde se quiere traer los resultados anteriores.
+        No inclusivo.
+    - schema:
+        type: string
+        example: tkn_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID del token desde donde se quiere traer los resultados siguientes.
+        No inclusivo.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object

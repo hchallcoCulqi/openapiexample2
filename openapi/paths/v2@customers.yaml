@@ -1,0 +1,233 @@
+get:
+  summary: Listar Clientes
+  tags:
+    - Clientes
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                data:
+                  - ...
+                paging:
+                  previous: >-
+                    https://api.culqi.com/v2/customers?limit=50&before=cus_live_
+                    Psny4smwxpmEDooU
+                  next: >-
+                    https://api.culqi.com/v2/customers?limit=50&after=cus_live_Lz6Yf
+                    sm7QqCPIECW
+                  cursors:
+                    before: cus_live_Psny4smwxpmEDooU
+                    after: cus_live_Lz6Yfsm7QqCPIECW
+  operationId: get-v2-customers
+  description: >-
+    Listar Clientes te permitirá obtener una serie de Customer existentes. De
+    acuerdo a los filtros que uses, los clientes serán ordenados de acuerdo a su
+    fecha de creación; siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+    - schema:
+        type: string
+        minLength: 2
+        maxLength: 50
+        example: Richard
+      in: query
+      name: first_name
+      description: Nombre del cliente.
+    - schema:
+        type: string
+        example: Hendricks
+        minLength: 2
+        maxLength: 50
+      in: query
+      name: last_name
+      description: Apellido del cliente.
+    - schema:
+        type: string
+        minLength: 5
+        maxLength: 50
+        example: richard@piedpiper.com
+      in: query
+      name: email
+      description: Correo electrónico del cliente.
+    - schema:
+        type: string
+        minLength: 5
+        maxLength: 100
+        example: San Francisco Bay
+      in: query
+      name: address
+      description: Dirección física del cliente.
+    - schema:
+        type: string
+        example: San Francisco
+        minLength: 5
+        maxLength: 15
+      in: query
+      name: address_city
+      description: Ciudad del cliente.
+    - schema:
+        type: string
+        example: '3383478'
+        minLength: 5
+        maxLength: 15
+      in: query
+      name: phone_number
+      description: Teléfono del cliente.
+    - schema:
+        type: string
+        example: PE
+      in: query
+      name: country_code
+      description: 'Código del país, en formato ISO-3166 (Alfa 2).'
+    - schema:
+        type: string
+        minLength: 1
+        example: '50'
+        maxLength: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de clientes que se quieren listar.
+    - schema:
+        type: string
+        example: cus_live_7lYOtONQ9LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: before
+      description: >-
+        El ID del cliente desde donde se quiere traer los resultados anteriores.
+        No inclusivo.
+    - schema:
+        type: string
+        example: cus_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID del cliente desde donde se quiere traer los resultados siguientes.
+        No inclusivo.
+post:
+  summary: Crear Cliente
+  operationId: crear-cliente
+  responses:
+    '201':
+      description: La petición fue exitosa.
+  description: >-
+    Crea un cliente enviando los datos de tu cliente y más datos relacionados al
+    mismo a través de los valores de metadata.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              first_name: Richard
+              last_name: Hendricks
+              email: richard@piedpiper.com
+              address: San Francisco Bay Area
+              address_city: Palo Alto
+              country_code: US
+              phone_number: '6505434800'
+          properties:
+            address:
+              type: string
+              description: Dirección del cliente.
+              example: Av. Brasil 123
+              minLength: 2
+              maxLength: 50
+            address_city:
+              type: string
+              description: Ciudad del cliente
+              minLength: 2
+              maxLength: 50
+              example: Lima
+            country_code:
+              type: string
+              minLength: 1
+              description: Código ISO-3166-1 (Alfa 2) del país del cliente.
+              example: PE
+            email:
+              type: string
+              description: Correo electrónico del cliente
+              minLength: 5
+              maxLength: 50
+              example: richard@piedpiper.com
+              format: email
+            first_name:
+              type: string
+              description: Nombre del cliente.
+              example: Richard
+              minLength: 2
+              maxLength: 50
+            last_name:
+              type: string
+              description: Apellido del cliente.
+              example: Hendricks
+              minLength: 2
+              maxLength: 50
+            phone_number:
+              type: string
+              description: Teléfono del cliente.
+              example: '6505434800'
+              minLength: 5
+              maxLength: 15
+            metadata:
+              type: object
+              description: Informacion adicional que se requiera enviar al crear el plan.
+              example:
+                codigo_alumno: 0001A
+          required:
+            - address
+            - address_city
+            - country_code
+            - email
+            - first_name
+            - last_name
+            - phone_number
+        examples:
+          example-1:
+            value:
+              first_name: Richard
+              last_name: Hendricks
+              email: richard@piedpiper.com
+              address: San Francisco Bay Area
+              address_city: Palo Alto
+              country_code: US
+              phone_number: '6505434800'
+  tags:
+    - Clientes

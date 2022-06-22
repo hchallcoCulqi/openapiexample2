@@ -1,0 +1,87 @@
+post:
+  summary: Confirmar tipo de Orden
+  operationId: post-v2-orders-confirm
+  responses:
+    '200':
+      description: Petición exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                object: order
+                id: ord_live_xjmEW4dIyJM9G4cc
+                amount: 6000
+                payment_code: '13642064'
+                currency_code: PEN
+                description: Venta de polo
+                order_number: '#id-9999'
+                state: pending
+                total_fee: null
+                net_amount: null
+                fee_details: null
+                creation_date: 1538540487
+                expiration_date: 1538540700
+                updated_at: null
+                paid_at: null
+                available_on: null
+                metadata: null
+                qr: iVBORw0KGgoAAAANSUhE..........K5CYII=
+                cuotealo: url de cuotéalo
+  description: >-
+    El uso de este método es opcional. Confirmar una orden permite que una orden
+    se habilite para ser pagada, generandole un código de pago y pasando a
+    estado "pendiente". Solo se puede usar este método cuando la orden se
+    encuentra en estado "creada".
+  parameters:
+    - schema:
+        type: string
+        enum:
+          - application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: Llave privada.
+      required: true
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          x-examples:
+            example-1:
+              id: ord_live_xjmEW4dIyJM9G4cc
+              order_types:
+                - cuotealo
+                - cip
+          properties:
+            id:
+              type: string
+              description: ID de la orden a confirmar.
+            order_types:
+              type: array
+              description: >-
+                Es el medio de confirmación de cuotéalo y cip. Pueden ser ambas
+                o una de ellas.
+              items:
+                type: string
+          required:
+            - id
+            - order_types
+        examples:
+          example-1:
+            value:
+              id: ord_live_xjmEW4dIyJM9G4cc
+              order_types:
+                - cuotealo
+                - cip
+  tags:
+    - Ordenes

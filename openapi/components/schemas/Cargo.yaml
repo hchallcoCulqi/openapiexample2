@@ -1,0 +1,283 @@
+title: Cargo
+type: object
+x-examples:
+  example-1:
+    object: charge
+    id: chr_live_kEazTaQBDtzNdwFr
+    creation_date: 1556206150307
+    amount: 10000
+    amount_refunded: 0
+    current_amount: 10000
+    installments: 0
+    installments_amount: null
+    currency: PEN
+    email: null
+    description: Hooli Phone
+    source:
+      object: token
+      id: tkn_live_0CjjdWhFpEAZlxlz
+      type: card
+      email: richard@piedpiper.com
+      creation_date: 1476132639
+      card_number: 442328******1214
+      last_four: '1214'
+      active: true
+      iin:
+        object: iin
+        bin: '442328'
+        card_brand: Visa
+        card_type: credito
+        card_category: platinum
+        issuer:
+          name: Silicon Valley Bank
+          country: United States
+          country_code: US
+          website: 'https://www.svb.com'
+          phone_number: +1.800.774.7390
+        installments_allowed:
+          - 2
+          - 4
+          - 8
+          - 12
+          - 24
+          - 36
+      client:
+        ip: 72.229.28.185
+        ip_country: United States
+        ip_country_code: US
+        browser: Google Chrome 56.0.2924.87
+        device_fingerprint: 6rITdVTYkWfOrss8
+        device_type: escritorio
+properties:
+  object:
+    type: string
+    description: Nombre del objeto.
+  id:
+    type: string
+    description: ID del cargo.
+    example: chr_live_kEazTaQBDtzNdwFr
+  creation_date:
+    type: integer
+    description: Fecha de creación del cargo en UNIX Timestamp.
+    example: '1476132639'
+  amount:
+    type: integer
+    description: Monto inicial del cargo en céntimos.
+    example: 10000
+  amount_refunded:
+    description: Monto devuelto del cargo en céntimos.
+    example: '500'
+    type: integer
+  current_amount:
+    type: integer
+    description: Monto actual del cargo en céntimos.
+    example: 9900
+  installments:
+    type: integer
+    description: Número de cuotas aplicadas al cargo.
+    example: '2'
+  installments_amount:
+    type: integer
+    description: Monto aproximado de la cuota que se aplicará al cliente.
+  currency_code:
+    type: string
+    description: >-
+      Código de la moneda en la que se realizó el cargo en formato **ISO
+      3166-2.** 
+    enum:
+      - PEN
+      - USD
+  email:
+    type: string
+    description: Dirección de correo electrónico del cliente.
+    example: richard@piedpiper.com
+  description:
+    type: string
+    description: Descripción del producto o servicio adquirido.
+    example: Hooli Phone
+  source:
+    type: object
+    description: >-
+      Información del objeto utilizado para crear el cargo. Puede ser un
+      [token](#tag/Tokens) o una [tarjeta](#tag/Tarjetas).
+  outcome:
+    type: object
+    description: Información detallada acerca del éxito o denegación del cargo.
+    required:
+      - type
+      - code
+      - merchant_message
+      - user_message
+    properties:
+      type:
+        type: string
+        description: >-
+          Si el cargo fue exitoso recibirás tipos de errores para más
+          información.
+        example: succesfull_request
+      code:
+        type: string
+        description: Código que indica el resultado del cargo.
+        enum:
+          - succesfull_charge
+          - card_declined
+        example: succesfull_charge
+      decline_code:
+        type: string
+        description: Indica el motivo de denegación devuelto por los bancos.
+        example: insufficient_funds
+      merchant_message:
+        type: string
+        description: Mensaje dirigido al comercio para conocer el resultado del cargo.
+        example: Venta exitosa. Se logró realizar el cargo a la tarjeta del cliente.
+      user_message:
+        type: string
+        description: Mensaje dirigido al cliente para conocer el resultado del cargo.
+        example: ¡Felicitaciones! Su compra ha sido exitosa.
+  fraud_score:
+    type: number
+    description: >-
+      Métrica que define el nivel de riesgo de fraude del cliente. Revisa la
+      [guía de análisis de riesgo](https://docs.culqi.com/#/fraude/riesgo) para
+      más información.
+    example: 30
+  antifraud_details:
+    type: object
+    description: Parámetros evaluados para el motor de fraude.
+    properties:
+      first_name:
+        type: string
+        description: Nombres del cliente.
+        example: Richard
+      last_name:
+        type: string
+        description: Apellidos del cliente.
+        example: Hendricks
+      address:
+        type: string
+        description: Dirección del cliente.
+        example: 5230 Newell Road
+      address_city:
+        type: string
+        description: Ciudad del cliente.
+        example: Palo Alto
+      country_code:
+        type: string
+        description: Código del país de la dirección del cliente en formato **ISO 3166-2**.
+        example: US
+      phone:
+        type: string
+        description: >-
+          Número de teléfono del cliente, sólo dígitos. No permite signos ni
+          espacios.
+        example: '65054324800'
+  dispute:
+    type: boolean
+    description: >-
+      Indica si el cargo está en disputa. Revisa la [guía de
+      disputas](https://docs.culqi.com/#/fraude/disputas) para más información.
+  reference_code:
+    type: string
+    description: ID de referencia de la marca procesadora.
+    example: 1jKsutQy4s
+  duplicated:
+    type: boolean
+    description: Indica si ya se realizó un cargo con la misma información.
+  metadata:
+    type: object
+    description: >-
+      Envía parametros adicionales con información relevante. [Ver
+      más.](#section/Metadata)
+  fee_details:
+    type: object
+    description: >-
+      Información detallada acerca de la comisión cobrada por Culqi.
+
+
+      **IMPORTANTE:** Las comisiones se calculan de manera asíncrona, por lo que
+      podrá recibir valores en blanco o NULL temporalmente.                
+    properties:
+      fixed_fee:
+        type: object
+        description: Información detallada acerca de la comisión fija cobrada por Culqi.
+      variable_fee:
+        type: object
+        properties:
+          currency_code:
+            type: string
+            description: >-
+              Código del país de la moneda de la comisión variable expresada en
+              formato ISO 3166-2.
+            enum:
+              - PEN
+              - USD
+            example: PEN
+          commision:
+            type: number
+            example: 0.0399
+            description: Porcentaje variable que se aplica al monto actual del cargo.
+          total:
+            type: integer
+            description: Monto final de la comisión variable expresada en céntimos.
+            example: 399
+        required:
+          - currency_code
+          - commision
+          - total
+  paid:
+    type: boolean
+    description: >-
+      Indica si el cargo está depositado en la cuenta bancaria. Revisa la [guía
+      de depósitos](https://docs.culqi.com/#/operaciones/depositos) para más
+      información.
+  statement_descriptor:
+    type: string
+    description: >-
+      Descripción que aparecerá en el estado de cuenta del cliente para reflejar
+      el cargo.
+    example: Culqi
+  operations:
+    type: object
+    description: Información de las operaciones que afectaron el monto original del cargo.
+    required:
+      - type
+      - operation_id
+      - creation_date
+    properties:
+      type:
+        type: string
+        description: Tipo de operación.
+        example: devolucion
+        enum:
+          - devolucion
+          - disputa
+          - fraude
+      operation_id:
+        type: string
+        description: ID de la operación.
+        example: ref_live_TWsfemI22ypplGK6
+      creation_date:
+        type: integer
+        description: >-
+          Fecha de creación de la operación en [UNIX
+          Timestamp].(http://www.unixtimestamp.com/)
+        example: 1476132639
+required:
+  - object
+  - id
+  - creation_date
+  - amount
+  - current_amount
+  - currency_code
+  - email
+  - source
+  - outcome
+  - antifraud_details
+  - dispute
+  - reference_code
+  - duplicated
+  - metadata
+  - fee_details
+  - paid
+  - statement_descriptor
+  - operations

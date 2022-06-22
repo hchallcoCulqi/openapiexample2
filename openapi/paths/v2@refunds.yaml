@@ -1,0 +1,200 @@
+post:
+  summary: Crear Devolución
+  operationId: post-v2-refunds
+  responses:
+    '201':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                id: ref_live_TTfLAgaA8nz8PWbO
+                charge_id: chr_live_TWsfemI22ypplGK6
+                amount: 5000
+                reason: Devolución solicitada por el comercio
+                creation_date: 1487039706000
+                object: refund
+                metadata: {}
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+  description: >-
+    Para crear una devolución es necesario que envíes el ID del cargo que deseas
+    devolver. Esta operación retorna los fondos a la tarjeta de crédito o débito
+    de tu cliente y adicionalmente las comisión variable cargada por Culqi.
+
+
+    Opcionalmente podrías devolver solo una parte del cargo, operación conocida
+    como devolución parcial. Puedes hacerlo las veces que quieras hasta que el
+    monto total del cargo haya sido devuelto por completo.
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              amount: 2000
+              charge_id: chr_live_7lYOtONQ9LxcgJUW
+              reason: fraudulento
+          properties:
+            amount:
+              type: integer
+              description: Monto de la devolución en céntimos.
+              example: 2000
+            charge_id:
+              type: string
+              minLength: 1
+              description: ID del cargo a devolver.
+              example: chr_live_3xWxRF1Zswgp6C7N
+            reason:
+              type: string
+              minLength: 1
+              description: >-
+                Razón o motivo de la devolución, es una cadena de texto
+                predefinida.
+              enum:
+                - duplicado
+                - fraudulento
+                - solicitud_comprador
+          required:
+            - amount
+            - charge_id
+            - reason
+  tags:
+    - Devoluciones
+get:
+  summary: Listar Devoluciones
+  operationId: get-v2-refunds
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties: {}
+          examples:
+            example-1:
+              value:
+                data: []
+                paging:
+                  previous: null
+                  next: null
+                  cursors:
+                    before: null
+                    after: null
+  description: >-
+    Listar devoluciones te permitirá obtener una serie de devoluciones
+    existentes. De acuerdo a los filtros que uses, las devoluciones serán
+    ordenados de acuerdo a su fecha de creación; siendo el primero el más
+    reciente.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada.](#section/Autenticacion)'
+      required: true
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date
+      description: Fecha de la devolución en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_from
+      description: Fecha inicial de las devoluciones en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_to
+      description: Fecha limite de las devoluciones en UNIX Timestamp
+    - schema:
+        type: string
+        enum:
+          - duplicado
+          - fraudulento
+          - solicitud_comprador
+      in: query
+      name: reason
+      description: 'Razón o motivo de la devolución, es una cadena de texto predefinida.'
+    - schema:
+        type: string
+        example: '50'
+        minLength: 1
+        maxLength: 100
+      in: query
+      name: limit
+      description: Cantidad exacta de devoluciones que se quieren listar.
+    - schema:
+        type: string
+        example: ref_live_7lYOtONQ9LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: before
+      description: >-
+        El ID de la devolución desde donde se quiere traer la página anterior.
+        No inclusivo.
+    - schema:
+        type: string
+        example: ref_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID de la devolución desde donde se quiere traer la siguiente página.
+        No inclusivo.
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: modification_date_from
+      description: Fecha modificación de las devoluciones en UNIX Timestamp
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: modification_date_to
+      description: Fecha modificación de las devoluciones en UNIX Timestamp
+    - schema:
+        type: string
+        enum:
+          - pendiente
+          - rechazado
+          - completado
+        example: pendiente
+      in: query
+      name: status
+      description: Estado de la devolución
+  tags:
+    - Devoluciones

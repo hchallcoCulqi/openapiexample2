@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Culqi | Api</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="https://culqi.com/assets/images/brand/brand.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="/assets/styles/style.css" />
+  <link rel="stylesheet" href="/assets/styles/footer.css" />
+  {{{redocHead}}}
+</head>
+
+<body>
+  <header class="header">
+    <nav class="flex justify-between w-full overflow-hidden nav-wrapper" title="Top Navigation">
+      <div class="nav-logo">
+        <a href="/">
+          <img src="/assets/images/brand-logo.png" alt="Culqi Api" />
+        </a>
+      </div>
+      <div class="nav-list">
+        <ul class="nav-list-ul">
+          <li class="nav-ul-li">
+            <a href="https://docs-dev.culqi.xyz/es/bienvenida/">
+              Bienvenida
+            </a>
+          </li>
+          <li class="nav-li">
+            <a href="https://docs-dev.culqi.xyz/es/documentacion/">
+              Documentación
+            </a>
+          </li>
+          <li class="nav-li">
+            <a class="active"> API </a>
+          </li>
+          <li class="nav-li">
+            <a href="https://docs-dev.culqi.xyz/es/sdks/"> SDK's </a>
+          </li>
+          <li class="nav-li">
+            <a href="#soporte"> Soporte </a>
+          </li>
+        </ul>
+        <div class="grid grid-cols-2 gap-x-1 md:flex md:justify-center md:items-center max-w-[70px] w-full">
+          <div class="flex items-center justify-center md:hidden hover:cursor-pointer" id="toggle-nav-mobile"></div>
+        </div>
+      </div>
+      <div class="nav-icon-toggle" id="toggle-nav-mobile">
+        <img src="/assets/images/icons/icon-dots.svg" alt="Culqi" />
+      </div>
+    </nav>
+
+    <div class="nav-mobile-overlay" id="overlay-nav-mobile">
+      <div class="nav-mobile-content" id="content-nav-mobile">
+        <div class="nav-mobile-content-button">
+          <div class="toggle-icon" id="toggle-nav-mobile">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_405_23423)">
+                <path
+                  d="M14.2648 15.3843L4.61482 5.73434C4.30482 5.42434 4.30482 4.92434 4.61482 4.61434C4.92482 4.30434 5.42482 4.30434 5.73482 4.61434L15.3848 14.2643C15.6948 14.5743 15.6948 15.0743 15.3848 15.3843C15.0748 15.6943 14.5748 15.6943 14.2648 15.3843Z"
+                  fill="#3E4B61"></path>
+                <path
+                  d="M4.61482 14.2643L14.2648 4.61434C14.5748 4.30434 15.0748 4.30434 15.3848 4.61434C15.6948 4.92434 15.6948 5.42434 15.3848 5.73434L5.73482 15.3843C5.42482 15.6943 4.92482 15.6943 4.61482 15.3843C4.30482 15.0743 4.30482 14.5743 4.61482 14.2643Z"
+                  fill="#3E4B61"></path>
+              </g>
+              <defs>
+                <clipPath id="clip0_405_23423">
+                  <rect width="11.23" height="11.23" fill="white" transform="translate(4.38477 4.38477)"></rect>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <ul class="nav-ul-mobile">
+          <li class="nav-ul-li">
+            <a href="https://docs-dev.culqi.xyz/es/bienvenida/">
+              Bienvenida
+            </a>
+          </li>
+          <li class="nav-ul-li">
+            <a href="https://docs-dev.culqi.xyz/es/documentacion/">
+              Documentación
+            </a>
+          </li>
+          <li class="nav-ul-li active">
+            <a class="active"> APIs </a>
+          </li>
+          <li class="nav-ul-li">
+            <a href="https://docs-dev.culqi.xyz/es/sdks/"> SDKs </a>
+          </li>
+          <li class="nav-ul-li">
+            <a href="#soporte"> Soporte </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  {{{redocHTML}}}
+  <script src="/assets/js/index.js"></script>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="container">
+        <div class="footer-container-top">
+          <div class="footer-logo">
+            <div class="logo-container">
+              <img style="object-fit: contain" src="/assets/images/brand/brand-culqi.svg" class="logo" alt="Culqi logo" />
+            </div>
+          </div>
+          <div class="footer-content">
+            <div class="footer-content__mobile">
+              <p>Contáctanos (01) 643 1050 | 970141600</p>
+              <div class="footer-content__mobile-social">
+                <a class="social" href="https://www.facebook.com/Culqi"><img src="https://culqi.com/assets/images/logos/redes-social/facebook-icon.svg" alt="facebook" /> </a><a class="social"
+                  href="https://www.instagram.com/culqi"><img src="https://culqi.com/assets/images/logos/redes-social/instagram-icon.svg" alt="instagram" /> </a><a class="social"
+                  href="https://cl.linkedin.com/company/culqi"><img src="https://culqi.com/assets/images/logos/redes-social/linkedin-icon.svg" alt="linkedin" /> </a><a class="social"
+                  href="https://www.youtube.com/channel/UCBKr5x8s9piCcvO70y_IsWQ"><img src="https://culqi.com/assets/images/logos/redes-social/youtube-icon.svg" alt="youtube" /></a>
+              </div>
+            </div>
+            <div class="footer-content__links" style="grid-template-columns: repeat(5, 1fr)">
+              <div class="footer-content__links-item">
+                <h3>Documentación</h3>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/documentacion/">Inicio rápido</a>
+                </li>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/documentacion/medios-de-pago/">Medios de pago</a>
+                </li>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/documentacion/plugins/">Plugins</a>
+                </li>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/documentacion/checkout/">Checkout</a>
+                </li>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/documentacion/pruebas/">Pruebas</a>
+                </li>
+              </div>
+              <div class="footer-content__links-item">
+                <h3>APIs</h3>
+                <li>
+                  <a href="https://apidocs.culqi.com/#/tokens">Tokens</a>
+                </li>
+                <li>
+                  <a href="https://apidocs.culqi.com/#/cargos">Cargos</a>
+                </li>
+                <li>
+                  <a href="https://apidocs.culqi.com/#/ordenes">Ordenes</a>
+                </li>
+                <li>
+                  <a href="https://apidocs.culqi.com/#/clientes">Clientes</a>
+                </li>
+                <li>
+                  <a href="https://apidocs.culqi.com/#/tarjetas">Tarjetas</a>
+                </li>
+              </div>
+              <div class="footer-content__links-item">
+                <h3>SDKs</h3>
+                <li>
+                  <a href="https://github.com/culqi/culqi-php">PHP</a>
+                </li>
+                <li>
+                  <a href="https://github.com/culqi/culqi-java">JAVA</a>
+                </li>
+                <li>
+                  <a href="https://github.com/culqi/culqi-python">Python</a>
+                </li>
+                <li>
+                  <a href="https://github.com/culqi/culqi-net">.NET</a>
+                </li>
+                <li>
+                  <a href="https://github.com/culqi">ver todos -></a>
+                </li>
+              </div>
+              <div class="footer-content__links-item">
+                <h3>Soporte</h3>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/bienvenida/#whatsapp">Whatsapp</a>
+                </li>
+                <li>
+                  <a href="https://docs-dev.culqi.xyz/es/bienvenida/#comunidad-facebook">Comunidad Facebook</a>
+                </li>
+              </div>
+              <div class="footer-content__links-item">
+                <h3>Síguenos</h3>
+                <a class="social" href="https://www.facebook.com/Culqi">
+                  <img src="https://culqi.com/assets/images/logos/redes-social/facebook-icon.svg" alt="facebook" />
+                </a>
+                <a class="social" href="https://www.instagram.com/culqi">
+                  <img src="https://culqi.com/assets/images/logos/redes-social/instagram-icon.svg" alt="instagram" />
+                </a>
+                <a class="social" href="https://cl.linkedin.com/company/culqi">
+                  <img src="https://culqi.com/assets/images/logos/redes-social/linkedin-icon.svg" alt="linkedin" />
+                </a>
+                <a class="social" href="https://www.youtube.com/channel/UCBKr5x8s9piCcvO70y_IsWQ">
+                  <img src="https://culqi.com/assets/images/logos/redes-social/youtube-icon.svg" alt="youtube" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="hr hr-mobile" />
+      <div class="container footer-actions">
+        <a href="https://culqi.com/terminos_y_condiciones/" class="color-white footer-actions__links">Términos y condiciones promocionales</a>
+        <a href="https://reclamos.culqi.com/" class="color-white footer-actions__links">Libro de reclamaciones</a>
+      </div>
+      <hr class="hr" />
+      <div class="container">
+        <div class="footer-container-bottom">
+          <div class="footer-container-bottom__item">
+            <p>
+              © Culqi 2022 | Con el respaldo de
+              <img src="/assets/images/brand/credicorp.png" alt="credicorp" />
+            </p>
+          </div>
+          <div class="footer-container-bottom__item">
+            <p>
+              Av. Andrés Reyes 338, oficina 2-123, 124, 125, 126 - San Isidro
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+
+</html>

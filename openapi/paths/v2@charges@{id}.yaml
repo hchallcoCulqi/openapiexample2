@@ -1,0 +1,86 @@
+parameters:
+  - schema:
+      type: string
+      example: chr_live_7VUwCneoG1XtLeS7
+      minLength: 25
+      maxLength: 25
+    name: id
+    in: path
+    required: true
+    description: ID del cargo.
+get:
+  summary: Consultar Cargo
+  tags:
+    - Cargos
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  operationId: get-v2-charges-id
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: '[Llave privada](#section/Autenticacion)'
+  description: >-
+    Consultar el detalle de un cargo utilizando el ID devuelto en la petición de
+    creación, esto te permitirá obtener como respuesta todos los parámetros del
+    objeto cargo.
+patch:
+  summary: Actualizar Cargo
+  operationId: patch-v2-charges-id
+  responses:
+    '200':
+      description: La petición fue exitosa.
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            properties:
+              metadata:
+                type: object
+                properties:
+                  dni:
+                    type: string
+                    minLength: 1
+                required:
+                  - dni
+            required:
+              - metadata
+            x-examples:
+              example-1:
+                metadata:
+                  dni: '71702323'
+          examples:
+            example-1:
+              value:
+                metadata:
+                  dni: '71702323'
+  description: >-
+    Actualizar un cargo te permitirá agregar o reemplazar información a los
+    valores de la metadata que enviaste a la hora de crear un cargo. Cualquier
+    parámetro o valor no provisto será omitido en la el valores de la metadata.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      description: '[Llave privada](#section/Autenticacion)'
+      required: true
+  tags:
+    - Cargos

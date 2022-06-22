@@ -1,0 +1,102 @@
+description: ''
+type: object
+x-examples:
+  example-1:
+    object: order
+    id: ord_live_xjmEW4dIyJM9G4cc
+    amount: 6000
+    payment_code: '13642064'
+    currency_code: PEN
+    description: Venta de polo
+    order_number: '#id-9999'
+    state: pending
+    total_fee: null
+    net_amount: null
+    fee_details: null
+    creation_date: 1538540487000
+    expiration_date: 1538540700000
+    updated_at: null
+    paid_at: null
+    available_on: null
+    metadata: null
+    qr: iVBORw0KGgoAAAANSUhE..........K5CYII=
+    cuotealo: url de cuotéalo
+properties:
+  object:
+    type: string
+    minLength: 1
+    enum:
+      - order
+    description: Nombre del objeto.
+  id:
+    type: string
+    minLength: 1
+    description: ID de la Orden.
+    example: ord_live_TWsfemI22ypplGK6
+  amount:
+    type: integer
+    example: 600.00 serían 60000
+    description: Monto de la Orden. Sin punto decimal.
+  payment_code:
+    type: string
+    minLength: 1
+    description: Código de pago de la orden.
+    example: '13642064'
+  currency_code:
+    type: string
+    minLength: 1
+    description: Código de la moneda en tres letras Formato **ISO 4217**.
+    enum:
+      - PEN
+  description:
+    type: string
+    description: Descripcion de la orden.
+    example: Venta de polo
+    minLength: 5
+    maxLength: 80
+  order_number:
+    type: string
+    minLength: 1
+    description: Número de la orden. Este debe ser único entre todas tus órdenes.
+    example: '#id-9999'
+  creation_date:
+    type: integer
+    description: >-
+      Fecha de creación de la orden en [UNIX
+      Timestamp.](http://www.unixtimestamp.com/)
+    example: 1476132639
+  expiration_date:
+    type: integer
+    description: >-
+      Fecha de creación de la tarjeta en [UNIX
+      Timestamp.](http://www.unixtimestamp.com/)
+
+
+      El tiempo de vigencia de CIP es mínimo 10 minutos y máximo 6 meses
+    example: 1476132639
+  metadata:
+    description: >-
+      Envia parámetros adicionales con información relevante. [Ver
+      más.](#section/Metadata)
+    type: object
+  qr:
+    type: string
+    minLength: 1
+    description: >-
+      Contiene la imagen del QR en base 64 para los pagos con billeteras
+      móviles.
+  cuotealo:
+    type: string
+    minLength: 1
+    description: >-
+      Muestra la URL que será redirigido tu cliente para evaluar si su compra
+      será financiada por Cuotéalo BCP.
+required:
+  - object
+  - id
+  - amount
+  - currency_code
+  - description
+  - creation_date
+  - expiration_date
+title: ''

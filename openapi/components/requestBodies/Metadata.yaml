@@ -1,0 +1,43 @@
+content:
+  application/json:
+    schema:
+      type: object
+      x-examples:
+        example-1:
+          amount: 200
+          currency_code: PEN
+          source_id: tkn_live_189fqQ2eZvKYlo2
+          description: Apple Watch Series 20
+          installments: 6
+          capture: true
+          metadata:
+            order_id: '204055'
+            user_id: '4625'
+            user_details: '46734527'
+      properties:
+        order_id:
+          type: string
+          description: Adjunta un número de pedido incremental.
+          example: '204055'
+        user_id:
+          type: string
+          description: |
+            Adjunta un identificador del cliente de tu sistema.
+          example: '4625'
+        user_details:
+          type: string
+          description: Adjunta datos adicionales sobre tu cliente
+          example: '{''dni'':''46734527''}'
+    examples:
+      example-1:
+        value:
+          amount: 200
+          currency_code: PEN
+          source_id: tkn_live_189fqQ2eZvKYlo2
+          description: Apple Watch Series 20
+          installments: 6
+          capture: true
+          metadata:
+            order_id: '204055'
+            user_id: '4625'
+            user_details: '46734527'

@@ -1,0 +1,15 @@
+title: Objeto Metadata
+type: object
+properties:
+  order_id:
+    type: string
+    description: Adjunta un número de pedido incremental.
+    example: '204055'
+  user_id:
+    type: string
+    description: Adjunta un identificador del cliente de tu sistema.
+    example: '4625'
+  user_details:
+    type: string
+    description: Adjunta datos adicionales sobre tu cliente 100.
+    example: '46734527'

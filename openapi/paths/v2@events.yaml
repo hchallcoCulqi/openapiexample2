@@ -1,0 +1,80 @@
+get:
+  summary: Listar Eventos
+  tags:
+    - Eventos
+  responses:
+    '200':
+      description: La petición fue exitosa.
+  operationId: listar-eventos
+  description: >-
+    Listar eventos te permitirá obtener una serie de eventos existentes. De
+    acuerdo a los filtros que uses, los diferentes eventos serán ordenados de
+    acuerdo a su fecha de creación; siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+        example: application/json
+      in: header
+      name: Content-type
+      required: true
+    - schema:
+        type: string
+        example: Bearer sk_test_UTCQSGcXW8bCyU59
+      in: header
+      name: Authorization
+      required: true
+      description: Llave privada.
+    - schema:
+        type: string
+        example: charge.creation.succeeded (cargos exitosos)
+      in: query
+      name: type
+      description: Tipo de evento a filtrar.
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date
+      description: 'Fecha del evento en [UNIX Timestamp](http://www.unixtimestamp.com/)'
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_from
+      description: >-
+        Fecha inicial de los eventos en [UNIX
+        Timestamp.](http://www.unixtimestamp.com/)
+    - schema:
+        type: string
+        example: '1476132639'
+      in: query
+      name: creation_date_to
+      description: >-
+        Fecha limite de los eventos en [UNIX
+        Timestamp.](http://www.unixtimestamp.com/)
+    - schema:
+        type: string
+        minLength: 1
+        maxLength: 100
+        example: '50'
+      in: query
+      name: limit
+      description: Cantidad exacta de eventos que se quieren listar.
+    - schema:
+        type: string
+        example: evt_live_7lYOtONQ9LxcgJUW
+      in: query
+      name: before
+      description: >-
+        El ID del evento desde donde se quiere traer la página anterior. No
+        inclusivo.
+    - schema:
+        type: string
+        example: evt_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID del evento desde donde se quiere traer la siguiente página. No
+        inclusivo.

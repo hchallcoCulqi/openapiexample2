@@ -1,0 +1,11 @@
+name: x-culqi-environment
+in: header
+required: true
+schema:
+  type: string
+  enum:
+    - live
+    - test
+description: >-
+  Entorno al que se realizó la petición. [Ver
+  más.](https://docs.culqi.com/#/cuenta/cuenta#entornos)

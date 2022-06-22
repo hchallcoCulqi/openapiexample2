@@ -1,0 +1,7 @@
+name: x-culqi-version
+in: header
+required: true
+schema:
+  type: string
+  example: 17.01.89
+description: Número de versión del API.

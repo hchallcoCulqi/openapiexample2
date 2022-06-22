@@ -1,0 +1,66 @@
+description: ''
+type: object
+x-examples:
+  example-1:
+    object: refund
+    id: ref_live_TTfLAgaA8nz8PWbO
+    charge_id: chr_live_kEazTaQBDtzNdwFr
+    creation_date: 1556552960000
+    amount: 2000
+    reason: Devolución solicitada por el comercio
+    metadata: {}
+title: Objeto Devolución
+properties:
+  object:
+    type: string
+    minLength: 1
+    description: Nombre del objeto.
+    enum:
+      - refund
+  id:
+    type: string
+    minLength: 1
+    description: ID de la devolución.
+    example: ref_live_TTfLAgaA8nz8PWbO
+  charge_id:
+    type: string
+    minLength: 1
+    example: chr_live_kEazTaQBDtzNdwFr
+    description: ID del cargo al que se le aplicó la devolución.
+  creation_date:
+    type: integer
+    description: Fecha de creación de la devolución en UNIX Timestamp.
+    example: 1476132639
+  amount:
+    type: integer
+    example: 1000
+    description: Monto de la devolución en céntimos.
+  reason:
+    type: string
+    minLength: 1
+    description: Razón o motivo de la devolución.
+    enum:
+      - Duplicado
+      - Fraudulento
+      - Devolución solicitada por el comercio
+  metadata:
+    type: object
+    description: Envía parametros adicionales con información
+  status:
+    type: string
+    description: Estado de la devolución.
+    enum:
+      - Completa
+      - Pendiente
+      - Rechazado
+  last_modified:
+    type: integer
+    description: Fecha de actualización del estado de la devolución en UNIX Timestamp.
+    example: 1476132639
+required:
+  - object
+  - id
+  - charge_id
+  - creation_date
+  - amount
+  - reason

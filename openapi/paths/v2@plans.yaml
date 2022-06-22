@@ -1,0 +1,282 @@
+parameters: []
+get:
+  summary: Listar Planes
+  tags:
+    - Planes
+  responses:
+    '200':
+      description: La petición fue exitosa
+  operationId: get-users-userId
+  description: >-
+    Listar planes te permitirá obtener una serie de planes existentes. De
+    acuerdo a los filtros que uses los planes serán ordenados de acuerdo a la
+    fecha de creación, siendo el primero el más reciente.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave_privada](#section/Autenticacion)'
+    - schema:
+        type: integer
+        example: Prueba
+        minLength: 300
+        maxLength: 999900
+        minimum: 300
+        maximum: 999900
+      in: query
+      name: amount
+      description: Monto de los planes en céntimos.
+    - schema:
+        type: integer
+        example: 100.00 sería 10000
+        minLength: 300
+        maxLength: 999900
+        minimum: 300
+        maximum: 999900
+      in: query
+      name: min_amount
+      description: Monto mínimo de los planes en céntimos.
+    - schema:
+        type: integer
+        example: 100.00 sería 10000
+        minimum: 300
+        maximum: 999900
+      in: query
+      name: max_amount
+      description: Monto máximo de los planes en céntimos.
+    - schema:
+        type: string
+        minLength: 5
+        maxLength: 15
+        example: '34343443434'
+      in: query
+      name: creation_date_from
+      description: Fecha inicial de los planes en UNIX Timestamp
+    - schema:
+        type: string
+        minLength: 5
+        maxLength: 15
+        example: '34343443434'
+      in: query
+      name: creation_date_to
+      description: Fecha limite de los planes en UNIX Timestamp
+    - schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        example: 50
+      in: query
+      name: limit
+      description: Cantidad exacta de planes que se quieren listar.
+    - schema:
+        type: string
+        minLength: 25
+        maxLength: 25
+        example: pln_live_7lYOtONQ9LxcgJUW
+      in: query
+      name: before
+      description: >-
+        El ID del plan desde donde se quiere traer los resultados anteriores. No
+        inclusivo.
+    - schema:
+        type: string
+        example: pln_live_7lYOtOMM6LxcgJUW
+        minLength: 25
+        maxLength: 25
+      in: query
+      name: after
+      description: >-
+        El ID del plan desde donde se quiere traer los resultados siguientes. No
+        inclusivo.
+post:
+  summary: Crear Plan
+  operationId: post-v2-plans
+  responses:
+    '201':
+      description: La petición fue exitosa
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            properties:
+              object:
+                type: string
+                minLength: 1
+              id:
+                type: string
+                minLength: 1
+              creation_date:
+                type: number
+              name:
+                type: string
+                minLength: 1
+              amount:
+                type: number
+              currency_code:
+                type: string
+                minLength: 1
+              interval_count:
+                type: number
+              interval:
+                type: string
+                minLength: 1
+              limit:
+                type: number
+              trial_days:
+                type: number
+              total_subscriptions:
+                type: number
+              metadata:
+                type: object
+                properties: {}
+                required: []
+            required:
+              - object
+              - id
+              - creation_date
+              - name
+              - amount
+              - currency_code
+              - interval_count
+              - interval
+              - limit
+              - trial_days
+              - total_subscriptions
+              - metadata
+            x-examples:
+              example-1:
+                object: plan
+                id: pln_live_uvBzalwuY3UsxJ9l
+                creation_date: 1556569427000
+                name: Hooli Subscription
+                amount: 2000
+                currency_code: PEN
+                interval_count: 1
+                interval: Meses
+                limit: 0
+                trial_days: 0
+                total_subscriptions: 0
+                metadata: {}
+  description: >-
+    Esta operación te permitirá configurar los detalles del plan para que puedas
+    realizar cargos recurrentes. Adicionalmente podrás hacer esta operación vía
+    el Panel de Culqi.
+  parameters:
+    - schema:
+        type: string
+      in: header
+      name: Content-type
+      description: application/json
+    - schema:
+        type: string
+      in: header
+      name: Authorization
+      description: '[Llave_privada](#section/Autenticacion)'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          description: ''
+          type: object
+          x-examples:
+            example-1:
+              name: Hooli Subscription
+              amount: 2000
+              currency_code: PEN
+              interval: meses
+              interval_count: 1
+              limit: 12
+          properties:
+            name:
+              type: string
+              description: |-
+                Nombre del plan.
+
+                Ejemplo: "Mi primer plan Básico"
+              example: '"Mi primer plan Básico"'
+              minLength: 2
+              maxLength: 50
+            amount:
+              type: number
+              description: |-
+                Monto del plan a cobrar recurrentemente. Sin punto decimal
+
+                Ejemplo: 100.00 serían 10000
+              example: 100.00 serían 10000
+              minimum: 300
+              maximum: 999900
+            currency_code:
+              type: string
+              minLength: 1
+              description: |
+                Código de la moneda en tres letras (Formato ISO 4217).
+
+                Ejemplo: "PEN", "USD"
+              example: '"PEN", "USD"'
+            interval:
+              type: string
+              minLength: 1
+              example: 'Valores permitidos: dias, semanas, meses, años,'
+              maxLength: 7
+              description: >-
+                Cantidad de cada cuanto se deben ejecutar los cargos del plan.
+                Si en 'interval' pusimos "meses", poner valor 1 en este campo
+                hará que se cobre cada mes.
+            interval_count:
+              type: number
+              description: >-
+                Cantidad de cada cuanto se deben ejecutar los cargos del plan.
+                Si en 'interval' pusimos "meses", poner valor 1 en este campo
+                hará que se cobre cada mes.
+
+
+                Ejemplo: 1
+              example: 1
+              minimum: 1
+              maximum: 999
+            trial_days:
+              type: integer
+              description: |-
+                Número de días del periodo de prueba (sin costo).
+
+                Ejemplo: "5
+              example: '"5"'
+              minimum: 1
+              maximum: 99
+            limit:
+              type: number
+              description: >-
+                Limite de cargos a realizar (ciclos). Si no se define, es
+                automáticamente sin límite.
+
+
+                Ejemplo: "12"
+              example: '"12"'
+              minimum: 2
+              maximum: 99
+            metadata:
+              type: object
+              description: >
+                Informacion adicional que se requiera enviar al crear el plan.
+
+
+                Example: {"descripcion" : "Este es un plan para poder agruparlos
+                a todos."}
+          required:
+            - name
+            - amount
+            - currency_code
+            - interval
+            - interval_count
+        examples:
+          example-1:
+            value: {}
+  tags:
+    - Planes

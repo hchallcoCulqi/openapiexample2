@@ -1,0 +1,202 @@
+openapi: 3.0.0
+info:
+  $ref: descripcion.yaml
+servers:
+  - url: 'https://api.culqi.com'
+tags:
+  - name: Tokens
+    description: >-
+      **Tokenización** es el proceso que utiliza Culqi para capturar de manera
+      segura datos sensibles de tarjetas de crédito y débito directamente desde
+      el navegador del cliente. Un <em>token</em> representa a una tarjeta
+      dentro del flujo de pago de Culqi y es devuelto a tus servidores para que
+      puedas utilizarlo a través de [Culqi
+      Checkout](https://docs.culqi.com/#/pagos/checkout),
+      [Culqi.JS](https://docs.culqi.com/#/pagos/js) o nuestras bibliotecas para
+      móviles ([iOS](https://docs.culqi.com/#/pagos/ios) y
+      [Android](https://docs.culqi.com/#/pagos/android)). Este método nos
+      asegura que ningún dato de tarjeta toque tus servidores y permite que la
+      integración cumple con la normativa **PCI DSS**.
+
+      </br> </br>
+
+      Si no deseas hacer uso de los métodos de tokenización disponibles, también
+      puedes crear tokens utilizando la API y tu llave pública. Pero en este
+      caso recuerda que tu empresa será la responsable de cualquier
+      procedimiento requerido por la normativa **PCI DSS**, como por ejemplo el
+      [siguiente
+      autocuestionario](https://www.pcisecuritystandards.org/documents/SAQ_D_v3_Merchant.pdf).
+      A diferencia de Culqi Checkout, Culqi.JS y los SDKs para móviles, la
+      información de tu cliente no será enviada directamente a Culqi así que no
+      podríamos determinar si manejas o guardas esta información con seguridad.
+
+      </br>
+
+      <div class="box info"><div class="content">Los tokens tienen un tiempo de
+      expiración de 5 minutos por lo que no pueden ser guardados y utilizados
+      más de una vez. Para hacerlos permanentes y generar cargos posteriores o
+      recurrentes, debes <a href="#operation/crear-cliente">crear un cliente</a>
+      y posteriormente <a href="#operation/crear-tarjeta"> crear una
+      tarjeta</a>.</div></div>
+
+
+      # Objeto Token
+
+      <SchemaDefinition schemaRef="#/components/schemas/Token" />
+  - name: Cargos
+    description: >
+      Para realizar un cargo a una tarjeta de débito o crédito debes crear un
+      objeto cargo. Adicionalmente puedes consultar, devolver un cargo en
+      particular o listar tu historial de cargos en base a los filtros que
+      desees. Todos los cargos están identificados por un ID.
+
+      # Objeto Cargo
+
+      <SchemaDefinition schemaRef="#/components/schemas/Cargo" />
+  - name: Devoluciones
+    description: >
+      Una devolución te permite devolver un cargo que ha sido creado previamente
+      y que aún no ha sido devuelto en su totalidad. Los fondos serán devueltos
+      a la tarjeta de crédito o débito que se ha realizado el cargo.
+
+      # Objeto Devolucion
+
+      <SchemaDefinition schemaRef="#/components/schemas/Devolucion" />
+  - name: Clientes
+    description: >
+      El recurso cliente te permite guardar la información de tus clientes para
+      realizarles cargos recurrentes o posteriores. La API de Culqi permite
+      crear, eliminar y actualizar los datos de tus clientes. Adicionalmente
+      podrás consultar los datos de un cliente en particular o listar a todos
+      tus clientes en base a los filtros que desees.
+
+      # Objeto Cliente
+
+      <SchemaDefinition schemaRef="#/components/schemas/Cliente" />
+  - name: Tarjetas
+    description: >
+      El objeto Tarjeta se usa para crear cargos posteriores a una tarjeta.
+      Recuerda que un Token por si solo vence a los 5 minutos de creado, pero si
+      lo conviertes en una Tarjeta podrás realizar cargos posteriores. Podrás
+      relacionar múltiples tarjeta al mismo Cliente.
+
+      # Objeto Tarjeta
+
+      <SchemaDefinition schemaRef="#/components/schemas/Tarjeta" />      
+  - name: Planes
+    description: >
+      Un plan de suscripción contiene información acerca del tipo de cargo,
+      frecuencia y monto que quieres cargarle a un Card de manera recurrente.
+      Por ejemplo, podrías configurar un plan básico de S/ 50 mensuales y un
+      plan Premium de S/ 75 mensuales.
+
+      # Objeto Plan
+
+      <SchemaDefinition schemaRef="#/components/schemas/Plan" />      
+  - name: Suscripciones
+    description: >
+      El crear suscripciones te permite realizar cargos recurrentes a la tarjeta
+      de un cliente. Una suscripción relaciona al objeto Customer y al objeto
+      Plan que has creado previamente.
+
+      <SchemaDefinition schemaRef="#/components/schemas/Suscripcion" />
+  - name: Ordenes
+    description: >
+      El objeto Orden contiene información de una posible venta. Es usado para
+      el método de pago en efectivo. Una vez es pagada la orden por tu cliente
+      via banco o agente, cambia de estado en el momento de la acción. Con este
+      recurso podrás brindar a tus clientes la opción de pagar sus compras en
+      efectivo.
+
+      # Objeto Orden
+
+      <SchemaDefinition schemaRef="#/components/schemas/Orden" />
+  - name: Eventos
+    description: >
+      Los eventos son formas de hacerte saber cuando algo sucede en tu cuenta de
+      Culqi. Cuando un evento ocurre, Culqi crea un objeto Evento. Por ejemplo,
+      cuando un cargo es exitoso, Culqi crea el evento charge.succeeded.
+      Adicionalmente, si realizas muchas peticiones al API podría llegar a
+      causar multiples eventos. Por ejemplo, si creas una suscripción para un
+      cliente, recibirás el evento customer.subscription.created y el evento
+      charge.succeeded.
+
+
+      Al igual que los otros recursos del API, puedes consultar un evento
+      particular o listar una serie de eventos directamente desde el API.
+      Adicionalmente, hemos construido un sistema automatizado que enviará
+      eventos directamente a tu servidor: webhooks. Te reconedamos que revises
+      nuestra guía de webhooks para que sepas como configurarlos.
+
+      # Objeto Evento
+
+      <SchemaDefinition schemaRef="#/components/schemas/Evento" />
+paths:
+  /v2/tokens:
+    $ref: paths/v2@tokens.yaml
+  '/v2/tokens/{id}':
+    $ref: 'paths/v2@tokens@{id}.yaml'
+  /v2/charges:
+    $ref: paths/v2@charges.yaml
+  '/v2/charges/{id}':
+    $ref: 'paths/v2@charges@{id}.yaml'
+  '/v2/charges/{id}/capture':
+    $ref: 'paths/v2@charges@{id}@capture.yaml'
+  /v2/refunds:
+    $ref: paths/v2@refunds.yaml
+  '/v2/refunds/{id}':
+    $ref: 'paths/v2@refunds@{id}.yaml'
+  /v2/customers:
+    $ref: paths/v2@customers.yaml
+  '/v2/customers/{id}':
+    $ref: 'paths/v2@customers@{id}.yaml'
+  /v2/plans:
+    $ref: paths/v2@plans.yaml
+  '/v2/plans/{id}':
+    $ref: 'paths/v2@plans@{id}.yaml'
+  /v2/cards:
+    $ref: paths/v2@cards.yaml
+  '/v2/cards/{id}':
+    $ref: 'paths/v2@cards@{id}.yaml'
+  /v2/subscriptions:
+    $ref: paths/v2@subscriptions.yaml
+  '/v2/subscriptions/{id}':
+    $ref: 'paths/v2@subscriptions@{id}.yaml'
+  /v2/orders:
+    $ref: paths/v2@orders.yaml
+  '/v2/orders/{id}/confirm':
+    $ref: 'paths/v2@orders@{id}@confirm.yaml'
+  /v2/orders/confirm:
+    $ref: paths/v2@orders@confirm.yaml
+  '/v2/orders/{id}':
+    $ref: 'paths/v2@orders@{id}.yaml'
+  '/v2/events/{id}':
+    $ref: 'paths/v2@events@{id}.yaml'
+  /v2/events:
+    $ref: paths/v2@events.yaml
+components:
+  schemas:
+    Token:
+      $ref: components/schemas/Token.yaml
+    Cargo:
+      $ref: components/schemas/Cargo.yaml
+    Devolucion:
+      $ref: components/schemas/Devolucion.yaml
+    Cliente:
+      $ref: components/schemas/Cliente.yaml
+    Tarjeta:
+      $ref: components/schemas/Tarjeta.yaml
+    Plan:
+      $ref: components/schemas/Plan.yaml
+    Orden:
+      $ref: components/schemas/Orden.yaml
+    Suscripcion:
+      $ref: components/schemas/Suscripcion.yaml
+    Metadata:
+      $ref: components/schemas/Metadata.yaml
+    Evento:
+      $ref: components/schemas/Evento.yaml
+    Rastreo:
+      $ref: components/schemas/Rastreo.yaml
+    Error:
+      $ref: components/schemas/Error.yaml    

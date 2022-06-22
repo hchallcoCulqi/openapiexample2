@@ -1,0 +1,26 @@
+description: ''
+type: object
+x-examples:
+  example-1:
+    object: event
+    type: charged.failed
+    data: {}
+properties:
+  object:
+    type: string
+    description: Nombre del objeto.
+    example: tkn_
+    minLength: 25
+    maxLength: 25
+  type:
+    type: string
+    minLength: 1
+    description: Identifica si es un cargo repetido.
+  data:
+    type: object
+    description: Objeto que contiene al recurso.
+required:
+  - object
+  - type
+  - data
+title: Objeto Evento
